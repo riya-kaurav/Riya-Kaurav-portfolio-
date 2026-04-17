@@ -4,33 +4,33 @@
 
 export const personalInfo = {
   // TODO: Add your name
-  name: "Alex Chen",
+  name: "Riya Kaurav",
   // TODO: Add your title/role
-  title: "Full-Stack Developer",
+  title: "Full Stack Engineer (Backend-Focused)",
   // TODO: Add your tagline
-  tagline: "I build fast, scalable, and beautiful web experiences.",
+  tagline: "Frontend UX meets backend infrastructure. I build both, but engineer the foundation.",
   // TODO: Add your short bio
-  bio: "I'm a full-stack developer passionate about crafting clean, performant applications. I love working at the intersection of design and engineering — where great user experiences are born. Currently open to freelance work and exciting full-time opportunities.",
+  bio: "Full-stack developer passionate about building clean, performant applications. I focus on scalable backend architecture, thoughtful API design, and intelligent features including AI integrations. Open to freelance work, internships, and full-time opportunities.",
   // TODO: Add your location
-  location: "San Francisco, CA",
+  location: "India",
   // TODO: Add your email
-  email: "hello@yourname.dev",
+  email: "kauravriya665@gmail.com",
   // TODO: Add your availability status
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
 
   // TODO: Add your social links
   socials: {
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourusername",
-    twitter: "https://twitter.com/yourusername",
+    github: "https://github.com/riya-kaurav",
+    linkedin: "https://www.linkedin.com/in/riya-kaurav-23b008329/",
+    twitter: "https://x.com/Riya_K11",
     // TODO: Optional extras
     // dribbble: "",
     // youtube: "",
   },
 
   // TODO: Replace with your real resume URL
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "",
 };
 
 // ============================================================
@@ -42,24 +42,28 @@ export const skills = {
     "Next.js",
     "TypeScript",
     "Tailwind CSS",
-    "Framer Motion",
-    "Vue.js",
+    
   ],
   backend: [
     "Node.js",
     "Express",
-    "Python",
-    "FastAPI",
     "PostgreSQL",
     "MongoDB",
+    "Fastify",
+    "Redis",
   ],
   tools: [
     "Git",
     "Docker",
-    "AWS",
-    "Vercel",
-    "Figma",
     "Linux",
+    "Postman",
+    
+  ],
+  other: [
+    "Data Structures & Algorithms (C++)",
+    "System Design",
+    "Database Management System",
+    "Operating System",
   ],
   // TODO: Add more categories if needed
 };
@@ -84,51 +88,69 @@ export const projects: Project[] = [
   {
     id: 1,
     // TODO: Replace with your project name
-    title: "NexaCommerce",
+    title: "SaaS Team Workspace Api",
     // TODO: Replace with your project description
     description:
-      "A high-performance e-commerce platform built with Next.js and Stripe. Features real-time inventory, serverless checkout, and a custom CMS for merchants to manage products seamlessly.",
+      "Enterprise-grade multi-tenant REST API with role-based access control, JWT authentication, and token refresh rotation. Built for SaaS platforms handling team collaboration at scale. Features Redis-based logout blacklisting, soft-delete audit trails, and role-scoped middleware enforcing Owner/Admin/Member permissions per organization. ",
     // TODO: Replace with your tech stack
-    techStack: ["Next.js", "TypeScript", "Stripe", "PostgreSQL", "Prisma", "Tailwind"],
+    techStack: ["Node.js",
+    "Express.js",
+    "PostgreSQL",
+    "Prisma",
+    "JWT",
+    "Redis",
+    "Docker",],
     // TODO: Replace with your live URL
-    liveUrl: "https://nexacommerce.demo",
+    // liveUrl: "https://nexacommerce.demo",
     // TODO: Replace with your GitHub URL
-    githubUrl: "https://github.com/yourusername/nexacommerce",
+    githubUrl: "https://github.com/riya-kaurav/Saas-workspace-api",
     featured: true,
-    year: "2024",
+    year: "2026",
   },
   {
     id: 2,
-    title: "DevCollab",
+    title: "AI Job Copilot",
     description:
-      "Real-time collaborative code editor for remote teams. Supports multi-cursor editing, voice chat, AI code suggestions, and instant deployment previews — think Figma but for code.",
-    techStack: ["React", "WebSockets", "Node.js", "Monaco Editor", "Redis", "Docker"],
-    liveUrl: "https://devcollab.demo",
-    githubUrl: "https://github.com/yourusername/devcollab",
+      "Intelligent job search assistant powered by AI that helps users optimize resumes, prepare for interviews, and discover relevant opportunities. Features real-time job matching, AI-driven resume analysis, and personalized interview preparation with actionable feedback. Built with a modern tech stack for fast performance and seamless user experience.",
+    techStack: [
+    "Next.js",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Tailwind CSS",
+    "AI/LLM Integration"],
+    // liveUrl: "https://devcollab.demo",
+    githubUrl: "https://github.com/riya-kaurav/Ai-Job-Copilot",
     featured: true,
-    year: "2024",
+    year: "2026",
   },
   {
     id: 3,
-    title: "PulseAnalytics",
+    title: "Resource Sharing Platform",
     description:
-      "Lightweight analytics dashboard for indie makers. Tracks key metrics, visualizes growth, and sends weekly digest emails. Privacy-first and cookie-free alternative to Google Analytics.",
-    techStack: ["Vue.js", "Python", "FastAPI", "ClickHouse", "Chart.js", "Vercel"],
-    liveUrl: "https://pulseanalytics.demo",
-    githubUrl: "https://github.com/yourusername/pulseanalytics",
+      "Community-driven platform for sharing and discovering educational resources. Users can upload, search, and upvote learning materials with a tag-based organization system. Features JWT-based authentication, optimized MongoDB search with indexing, and Cloudinary integration for secure file storage. Built for fast, scalable resource discovery.",
+    techStack: ["React.js",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "JWT",
+    "Cloudinary",
+    "Tailwind CSS",],
+    // liveUrl: "https://pulseanalytics.demo",
+    githubUrl: "https://github.com/riya-kaurav/resource-sharing-platform",
     featured: false,
-    year: "2023",
+    year: "2026",
   },
   {
     id: 4,
-    title: "PromptForge",
+    title: "GitHub Explorer App",
     description:
-      "A prompt engineering toolkit that helps developers test, version, and optimize LLM prompts at scale. Includes A/B testing, cost estimation, and team collaboration features.",
-    techStack: ["Next.js", "OpenAI API", "Supabase", "TypeScript", "Zod"],
+      "Interactive web application for exploring GitHub repositories and user profiles. Search repositories, view detailed stats, and discover trending projects with real-time data from GitHub API.Built withoptimized API integration for fast, smooth exploration.",
+    techStack: ["HTML" , "CSS" , "JavaScript", "Github API"],
     liveUrl: "https://promptforge.demo",
     githubUrl: "https://github.com/yourusername/promptforge",
     featured: false,
-    year: "2023",
+    year: "2025",
   },
 ];
 
@@ -201,55 +223,73 @@ export interface Service {
 export const services: Service[] = [
   {
     id: 1,
-    icon: "🖥️",
-    // TODO: Customize service title
-    title: "Frontend Development",
+    icon: "🏗️",
+    title: "Backend & API Development",
     description:
-      "Pixel-perfect, accessible UIs built with React and Next.js. From landing pages to complex dashboards, I focus on performance and delightful user experiences.",
+      "Scalable REST APIs and server-side architecture for startups. I design multi-tenant systems, implement secure authentication, and optimize databases for production. From auth flows to payment integrations, I handle the backend foundation.",
     features: [
-      "React / Next.js apps",
-      "Responsive & accessible design",
-      "Performance optimization",
-      "Animation & micro-interactions",
+      "REST API design & optimization",
+      "JWT & role-based access control",
+      "Database design (PostgreSQL/MongoDB)",
+      "Redis caching & performance tuning",
+      "Docker containerization",
     ],
   },
   {
     id: 2,
     icon: "⚡",
-    title: "Full-Stack Applications",
+    title: "Full-Stack Product Development",
     description:
-      "End-to-end web applications from database design to deployment. I handle the full lifecycle — architecture, API design, auth, payments, and DevOps.",
+      "End-to-end product development from concept to deployment. I build complete applications with modern frontend, robust backend, and production-ready infrastructure. Perfect for MVPs and scaling startups.",
     features: [
-      "REST & GraphQL APIs",
-      "Auth & payments integration",
-      "Database design",
-      "Cloud deployment (AWS/Vercel)",
+      "Next.js & React frontends",
+      "Express.js/Node.js backends",
+      "Multi-tenant architecture",
+      "API authentication & authorization",
+      "Database optimization & migrations",
+      "Docker & deployment pipelines",
     ],
   },
   {
     id: 3,
     icon: "🚀",
-    title: "MVP Development",
+    title: "Startup MVP & Rapid Development",
     description:
-      "Fast, focused MVP development for startups and founders. I help you validate your idea quickly with clean, scalable code so you can iterate fast.",
+      "Quick-turnaround MVP development for founders. I ship scalable, production-ready code fast. Focus on what matters: solving the core problem, validating the idea, and building investor-ready demos.",
     features: [
-      "Rapid prototyping",
-      "Scalable architecture",
-      "Investor-ready demos",
-      "Post-launch support",
+      "Rapid prototyping (weeks, not months)",
+      "Scalable from day one",
+      "Clean, maintainable code",
+      "Quick iterations & pivots",
+      "Deployment & post-launch support",
     ],
   },
   {
     id: 4,
-    icon: "🔍",
-    title: "Code Review & Consulting",
+    icon: "🔧",
+    title: "System Design & Architecture",
     description:
-      "Technical audits, code reviews, and architecture consulting for teams looking to improve their codebase quality, performance, or developer experience.",
+      "Technical architecture consulting for growing teams. I audit codebases, design scalable systems, and help teams transition from monoliths to distributed architectures. Everything from database optimization to deployment strategy.",
     features: [
-      "Code quality audits",
-      "Performance profiling",
-      "Architecture review",
-      "Team workshops",
+      "API architecture & design patterns",
+      "Database optimization & indexing",
+      "Scalability planning",
+      "Docker & infrastructure setup",
+      "Code quality & performance audits",
+    ],
+  },
+  {
+    id: 5,
+    icon: "🤖",
+    title: "AI Integration & Modern Features",
+    description:
+      "Integrate AI capabilities into your product. From LLM APIs to intelligent features, I help you add modern AI functionality without overcomplicating your stack.",
+    features: [
+      "LLM API integration",
+      "Smart feature implementation",
+      "Prompt engineering",
+      "Real-time data processing",
+      "AI-powered recommendations",
     ],
   },
 ];
