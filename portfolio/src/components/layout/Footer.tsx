@@ -19,7 +19,7 @@ export default function Footer() {
             </p>
             <p className="text-text-muted text-sm mt-1 font-mono">
               {/* TODO: Update tagline */}
-              Building the web, one commit at a time.
+              Code to me like a poetry to the poet.
             </p>
           </div>
 

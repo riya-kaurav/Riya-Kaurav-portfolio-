@@ -31,21 +31,21 @@ const socialLinks = [
   {
     icon: Github,
     label: "GitHub",
-    value: "@yourusername", // TODO: Update your GitHub handle
+    value: "@riya-kaurav", // TODO: Update your GitHub handle
     href: personalInfo.socials.github,
     color: "text-text-secondary",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "in/yourusername", // TODO: Update your LinkedIn
+    value: "in/riya-kaurav", // TODO: Update your LinkedIn
     href: personalInfo.socials.linkedin,
     color: "text-blue-400",
   },
   {
     icon: Twitter,
     label: "Twitter / X",
-    value: "@yourusername", // TODO: Update your Twitter handle
+    value: "@Riya_K11", // TODO: Update your Twitter handle
     href: personalInfo.socials.twitter,
     color: "text-sky-400",
   },
@@ -110,7 +110,7 @@ export default function Contact() {
             <p className="text-text-secondary text-sm leading-relaxed mb-4">
               {/* TODO: Personalize your contact blurb */}
               The best way to reach me is via email. I typically respond within
-              24–48 hours. You can also find me on these platforms:
+              24 hours. You can also find me on these platforms:
             </p>
 
             {socialLinks.map((link, i) => (

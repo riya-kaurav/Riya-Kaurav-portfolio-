@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
+  // { label: "Experience", href: "#experience" },
   { label: "Services", href: "#services" },
   { label: "Contact", href: "#contact" },
 ];
@@ -59,7 +59,7 @@ export default function Navbar() {
       >
         <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
-          <button
+          {/* <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-2 group"
           >
@@ -67,12 +67,12 @@ export default function Navbar() {
               <Terminal className="w-4 h-4 text-accent-cyan" />
             </div>
             <span className="font-display font-700 text-text-primary tracking-tight">
-              {/* TODO: Replace with your initials or name */}
+    
               <span className="text-accent-cyan">&lt;</span>
               {personalInfo.name.split(" ").map((n) => n[0]).join("")}
               <span className="text-accent-cyan">/&gt;</span>
             </span>
-          </button>
+          </button> */}
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">

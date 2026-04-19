@@ -6,12 +6,12 @@ export const personalInfo = {
   // TODO: Add your name
   name: "Riya Kaurav",
   // TODO: Add your title/role
-  title: "Full Stack Engineer (Backend-Focused)",
+  title: "Full Stack Engineer ",
   // TODO: Add your tagline
   tagline: "Frontend UX meets backend infrastructure. I build both, but engineer the foundation.",
   // TODO: Add your short bio
-  bio: "Full-stack developer passionate about building clean, performant applications. I focus on scalable backend architecture, thoughtful API design, and intelligent features including AI integrations. Open to freelance work, internships, and full-time opportunities.",
-  // TODO: Add your location
+  bio: "Full-stack developer passionate about building clean, performant applications. I focus on scalable backend architecture, thoughtful API design, and intelligent features including AI integrations. Currently a 2nd-year B.Tech student, open to freelance work, internships, and full-time opportunitie.",
+ // TODO: Add your location
   location: "India",
   // TODO: Add your email
   email: "kauravriya665@gmail.com",
@@ -30,7 +30,7 @@ export const personalInfo = {
   },
 
   // TODO: Replace with your real resume URL
-  resumeUrl: "",
+  resumeUrl: "https://drive.google.com/file/d/1b98Bqrsm90sOReQmvmj4_1KsWO3r63ht/view?usp=drivesdk",
 };
 
 // ============================================================
@@ -41,6 +41,7 @@ export const skills = {
     "React",
     "Next.js",
     "TypeScript",
+    "JavaScript",
     "Tailwind CSS",
     
   ],
@@ -59,7 +60,7 @@ export const skills = {
     "Postman",
     
   ],
-  other: [
+  others: [
     "Data Structures & Algorithms (C++)",
     "System Design",
     "Database Management System",

@@ -57,8 +57,7 @@ export default function Hero() {
   // TODO: Customize these role strings
   const roles = [
     "Full-Stack Developer",
-    "React Specialist",
-    "UI/UX Enthusiast",
+    "Backend-Engineer",
     "Open Source Contributor",
   ];
   const typedRole = useTypewriter(roles);
