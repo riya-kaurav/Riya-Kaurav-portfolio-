@@ -6,6 +6,7 @@ import Projects from "@/components/sections/Projects";
 import Services from "@/components/sections/Services";
 import Contact from "@/components/sections/Contact";
 import CustomCursor from "@/components/ui/CustomCursor";
+import { Analytics } from "@vercel/analytics/next"
 
 export default function Home() {
   return (
