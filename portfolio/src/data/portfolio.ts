@@ -30,7 +30,7 @@ export const personalInfo = {
   },
 
   // TODO: Replace with your real resume URL
-  resumeUrl: "https://drive.google.com/file/d/1b98Bqrsm90sOReQmvmj4_1KsWO3r63ht/view?usp=drivesdk",
+  resumeUrl: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
 };
 
 // ============================================================

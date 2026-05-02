@@ -33,18 +33,18 @@ export default function About() {
             className="lg:col-span-2 flex flex-col items-center lg:items-start gap-6"
           >
             {/* Avatar placeholder */}
-            <div className="relative">
-              <div className="w-40 h-40 rounded-2xl bg-bg-elevated border border-border-subtle flex items-center justify-center overflow-hidden relative">
+            {/* <div className="relative">
+              <div className="w-40 h-40 rounded-2xl bg-bg-elevated border border-border-subtle flex items-center justify-center overflow-hidden relative"> */}
                 {/* TODO: Replace with your actual photo using next/image */}
-                <Image src="/image.jpeg" alt="Your Name" fill className="object-cover" /> 
+                {/* <Image src="/image.jpeg" alt="Your Name" fill className="object-cover" /> 
 
                 <div className="absolute inset-0 bg-gradient-to-br from-accent-cyan/10 to-accent-green/5" />
                 <User size={48} className="text-text-muted relative z-10 hidden" />
-              </div>
+              </div> */}
               {/* Decorative ring */}
-              <div className="absolute -inset-2 rounded-2xl border border-accent-cyan/20 -z-10" />
+              {/* <div className="absolute -inset-2 rounded-2xl border border-accent-cyan/20 -z-10" />
               <div className="absolute -inset-4 rounded-2xl border border-accent-cyan/10 -z-20" />
-            </div>
+            </div> */}
 
             {/* Meta info */}
             <div className="flex flex-col gap-3 w-full">
