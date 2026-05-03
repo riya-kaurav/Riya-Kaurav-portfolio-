@@ -8,9 +8,9 @@ export const personalInfo = {
   // TODO: Add your title/role
   title: "Full Stack Engineer ",
   // TODO: Add your tagline
-  tagline: "Frontend UX meets backend infrastructure. I build both, but engineer the foundation.",
+  tagline: "20. full stack dev. i build things that actually work in production. backends that scale, frontends that don't break, ai features that aren't just wrappers. open to internships & freelance.",
   // TODO: Add your short bio
-  bio: "Full-stack developer passionate about building clean, performant applications. I focus on scalable backend architecture, thoughtful API design, and intelligent features including AI integrations. Currently a 2nd-year B.Tech student, open to freelance work, internships, and full-time opportunitie.",
+  bio: "I'm Riya — 20, full stack dev, 2nd year student.I build complete products withbackend that scales, frontend that makes sense, and AI that actually earns its place in the architecture.I care about building things that are thought through clean architecture, good decisions, systems that don't fall apart under pressure.When I'm not writing code I'm writing poetry. Turns out both are just about finding the right words for something complex. Currently open to internships, full stack freelance, and problems worth solving.",
  // TODO: Add your location
   location: "India",
   // TODO: Add your email
