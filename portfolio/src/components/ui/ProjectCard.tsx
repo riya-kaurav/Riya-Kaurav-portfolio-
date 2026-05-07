@@ -5,6 +5,7 @@ import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { Project } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 
+
 interface ProjectCardProps {
   project: Project;
   index: number;
@@ -32,6 +33,25 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
       {/* Glow on hover */}
       <div className="absolute inset-0 rounded-2xl bg-accent-cyan/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+      {/* ────────────────────────────────────────────────
+          PROJECT IMAGE (only renders if image is provided)
+          - Sits above the card content
+          - Slight zoom on hover via group-hover scale
+          - Overlay gradient fades image into the card body
+      ──────────────────────────────────────────────── */}
+      {project.imageUrl && (
+        <div className="relative w-full h-45 overflow-hidden">
+          {/* Zoom effect on card hover */}
+          <img
+            src={project.imageUrl}
+            alt={`${project.title} preview`}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Gradient overlay: blends image into card background below */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-card" />
+        </div>
+      )}
 
       <div className="p-6 md:p-7 flex flex-col h-full relative z-10">
         {/* Header */}

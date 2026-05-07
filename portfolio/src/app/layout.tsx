@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { personalInfo } from "@/data/portfolio";
+import ScrollPanda from "@/components/ui/ScrollPanda";
 
-// TODO: Update metadata with your own info
+
 export const metadata: Metadata = {
   title: `${personalInfo.name} — ${personalInfo.title}`,
   description: personalInfo.tagline,
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="noise-overlay antialiased">
+        <ScrollPanda/>  
         {children}
       </body>
     </html>

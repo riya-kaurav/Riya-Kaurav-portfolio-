@@ -19,7 +19,7 @@ export default function Footer() {
             </p>
             <p className="text-text-muted text-sm mt-1 font-mono">
               {/* TODO: Update tagline */}
-              Code to me like a poetry to the poet.
+              Code to me is like poetry to the poet.
             </p>
           </div>
 

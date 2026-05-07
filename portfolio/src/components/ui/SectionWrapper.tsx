@@ -44,14 +44,14 @@ export function SectionHeading({ label, title, subtitle }: SectionHeadingProps) 
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="mb-16"
     >
-      <span className="font-mono text-xs text-accent-cyan tracking-widest uppercase">
+      <span className="font-mono text-s text-accent-cyan tracking-widest uppercase">
         {label}
       </span>
-      <h2 className="font-display font-bold text-3xl md:text-4xl text-text-primary mt-2">
+      <h2 className="font-display font-bold text-5xl md:text-5xl text-text-primary mt-2">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-text-secondary mt-3 max-w-xl text-base font-body">
+        <p className="text-text-secondary mt-3 max-w-5xl text-base font-body">
           {subtitle}
         </p>
       )}

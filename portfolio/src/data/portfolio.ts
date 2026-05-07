@@ -1,6 +1,4 @@
-// ============================================================
-// 📝 PORTFOLIO DATA — Edit everything here to personalize
-// ============================================================
+//PORTFOLIO DATA — Edit everything here to personalize
 
 export const personalInfo = {
   // TODO: Add your name
@@ -10,7 +8,7 @@ export const personalInfo = {
   // TODO: Add your tagline
   tagline: "20. full stack dev. open to internships & freelance.",
   // TODO: Add your short bio
-  bio: "I'm Riya — 20, full stack dev, 2nd year student. I build complete products with backend that scales, frontend that makes sense, and AI that actually earns its place in the architecture. I care about building things that are thought through clean architecture, good decisions, systems that don't fall apart under pressure.When I'm not writing code I'm writing poetry. Turns out both are just about finding the right words for something complex. Currently open to internships, full stack freelance, and problems worth solving.",
+  bio: "I'm Riya — a full‑stack developer and 2nd‑year engineering student. I turn ideas into real products. From frontend to backend to AI‑powered applications, I handle the entire development journey. I care about clean design, smooth performance, and real user experience not just the tech behind it, but the impact it creates. I believe in building systems with thoughtful architecture, good decisions, and resilience under pressure. When I'm not writing code, I'm writing poetry because both are about finding the right words for something complex. Currently open to internships, full‑stack freelance work, and problems worth solving.",
  // TODO: Add your location
   location: "India",
   // TODO: Add your email
@@ -33,31 +31,38 @@ export const personalInfo = {
   resumeUrl: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
 };
 
-// ============================================================
-// 🛠️ SKILLS — TODO: Update with your actual skills
-// ============================================================
+//  SKILLS — TODO: Update with your actual skills
+
 export const skills = {
-  frontend: [
-    "React",
-    "Next.js",
+
+  languages: [
     "TypeScript",
     "JavaScript",
-    "Tailwind CSS",
+    "Python",
+    "C++",
     
   ],
-  backend: [
-    "Node.js",
+  frameworksAndlibraries: [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+     "Node.js",
     "Express",
+    "Fastify",
+   
+  ],
+  databases: [
     "PostgreSQL",
     "MongoDB",
-    "Fastify",
-    "Redis",
+    "Redis"
   ],
+
   tools: [
     "Git",
     "Docker",
     "Linux",
     "Postman",
+    "GitHub Actions"
     
   ],
   others: [
@@ -69,9 +74,9 @@ export const skills = {
   // TODO: Add more categories if needed
 };
 
-// ============================================================
-// 💼 PROJECTS — TODO: Replace with your real projects
-// ============================================================
+
+//  PROJECTS — TODO: Replace with your real projects
+
 export interface Project {
   id: number;
   title: string;
@@ -81,7 +86,7 @@ export interface Project {
   githubUrl?: string;
   featured: boolean;
   year: string;
-  // TODO: Optionally add an image URL
+  
   imageUrl?: string;
 }
 
@@ -89,24 +94,27 @@ export const projects: Project[] = [
   {
     id: 1,
     // TODO: Replace with your project name
-    title: "SaaS Team Workspace Api",
+    title: "Distributed Job Scheduler",
     // TODO: Replace with your project description
     description:
-      "Enterprise-grade multi-tenant REST API with role-based access control, JWT authentication, and token refresh rotation. Built for SaaS platforms handling team collaboration at scale. Features Redis-based logout blacklisting, soft-delete audit trails, and role-scoped middleware enforcing Owner/Admin/Member permissions per organization. ",
-    // TODO: Replace with your tech stack
+      "A multi-tenant job queue and scheduling system built with Fastify, BullMQ, PostgreSQL, and Redis. It lets teams submit background jobs, schedule recurring tasks via cron, and monitor execution all behind a secure dual-auth API. ",
+    
     techStack: ["Node.js",
-    "Express.js",
+    "Fastify",
     "PostgreSQL",
-    "Prisma",
-    "JWT",
     "Redis",
-    "Docker",],
-    // TODO: Replace with your live URL
+    "Nginx",
+    "BullMQ",
+    "Docker",
+    "GitHub Actions"
+  ],
+    
     // liveUrl: "https://nexacommerce.demo",
-    // TODO: Replace with your GitHub URL
-    githubUrl: "https://github.com/riya-kaurav/Saas-workspace-api",
+    
+    githubUrl: "https://github.com/riya-kaurav/JOB-SCHEDULER",
     featured: true,
     year: "2026",
+    // imageUrl: "/ProjectImage.png"
   },
   {
     id: 2,
@@ -127,6 +135,28 @@ export const projects: Project[] = [
   },
   {
     id: 3,
+    // TODO: Replace with your project name
+    title: "SaaS Team Workspace Api",
+    // TODO: Replace with your project description
+    description:
+      "Enterprise-grade multi-tenant REST API with role-based access control, JWT authentication, and token refresh rotation. Built for SaaS platforms handling team collaboration at scale. Features Redis-based logout blacklisting, soft-delete audit trails, and role-scoped middleware enforcing Owner/Admin/Member permissions per organization. ",
+    // TODO: Replace with your tech stack
+    techStack: ["Node.js",
+    "Express.js",
+    "PostgreSQL",
+    "Prisma",
+    "JWT",
+    "Redis",
+    "Docker",],
+    // TODO: Replace with your live URL
+    // liveUrl: "https://nexacommerce.demo",
+    // TODO: Replace with your GitHub URL
+    githubUrl: "https://github.com/riya-kaurav/Saas-workspace-api",
+    featured: true,
+    year: "2026",
+  },
+{
+  id: 4,
     title: "Resource Sharing Platform",
     description:
       "Community-driven platform for sharing and discovering educational resources. Users can upload, search, and upvote learning materials with a tag-based organization system. Features JWT-based authentication, optimized MongoDB search with indexing, and Cloudinary integration for secure file storage. Built for fast, scalable resource discovery.",
@@ -140,19 +170,9 @@ export const projects: Project[] = [
     // liveUrl: "https://pulseanalytics.demo",
     githubUrl: "https://github.com/riya-kaurav/resource-sharing-platform",
     featured: false,
-    year: "2026",
-  },
-  {
-    id: 4,
-    title: "GitHub Explorer App",
-    description:
-      "Interactive web application for exploring GitHub repositories and user profiles. Search repositories, view detailed stats, and discover trending projects with real-time data from GitHub API.Built withoptimized API integration for fast, smooth exploration.",
-    techStack: ["HTML" , "CSS" , "JavaScript", "Github API"],
-    liveUrl: "https://promptforge.demo",
-    githubUrl: "https://github.com/yourusername/promptforge",
-    featured: false,
     year: "2025",
-  },
+ },   
+  
 ];
 
 // ============================================================
