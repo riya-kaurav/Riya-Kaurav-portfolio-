@@ -295,26 +295,28 @@ export default function Hero() {
         </motion.div>
 
         {/* GitHub Calendar */}
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-24 flex flex-col items-center"
-        >
-          <h2 className="mb-6 text-xl font-bold text-text-primary">
-            My GitHub Contributions
-          </h2>
+<motion.div
+  variants={itemVariants}
+  initial="hidden"
+  animate="visible"
+  className="mt-24 flex flex-col items-center w-full"
+>
+  <h2 className="mb-6 text-center text-xl font-bold text-text-primary">
+    My GitHub Contributions
+  </h2>
 
-          <div className="overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-6 backdrop-blur-md">
-            {/* @ts-ignore */}
-            <GitHubCalendar
-              username="riya-kaurav"
-              blockSize={12}
-              blockMargin={4}
-              fontSize={14}
-            />
-          </div>
-        </motion.div>
+  <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-3 sm:p-4 md:p-6 backdrop-blur-md">
+    <div className="min-w-[720px] flex justify-center">
+      {/* @ts-ignore */}
+      <GitHubCalendar
+        username="riya-kaurav"
+        blockSize={window.innerWidth < 640 ? 8 : 12}
+        blockMargin={window.innerWidth < 640 ? 3 : 4}
+        fontSize={window.innerWidth < 640 ? 10 : 14}
+      />
+    </div>
+  </div>
+</motion.div>
 
         {/* Scroll Indicator */}
         <motion.button

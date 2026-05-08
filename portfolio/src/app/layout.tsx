@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { personalInfo } from "@/data/portfolio";
-import ScrollPanda from "@/components/ui/ScrollPanda";
 
 
 export const metadata: Metadata = {
@@ -30,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="noise-overlay antialiased">
-        <ScrollPanda/>  
+      
         {children}
       </body>
     </html>
