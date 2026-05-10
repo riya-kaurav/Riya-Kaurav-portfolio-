@@ -309,11 +309,11 @@ export default function Hero() {
     <div className="min-w-[720px] flex justify-center">
       {/* @ts-ignore */}
       <GitHubCalendar
-        username="riya-kaurav"
-        blockSize={window.innerWidth < 640 ? 8 : 12}
-        blockMargin={window.innerWidth < 640 ? 3 : 4}
-        fontSize={window.innerWidth < 640 ? 10 : 14}
-      />
+  username="riya-kaurav"
+  blockSize={typeof window !== "undefined" && window.innerWidth < 640 ? 8 : 12}
+  blockMargin={typeof window !== "undefined" && window.innerWidth < 640 ? 3 : 4}
+  fontSize={typeof window !== "undefined" && window.innerWidth < 640 ? 10 : 14}
+/>
     </div>
   </div>
 </motion.div>
