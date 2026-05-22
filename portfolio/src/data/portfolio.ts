@@ -5,14 +5,13 @@ export const personalInfo = {
   // TODO: Add your title/role
   title: "Full-Stack Developer",
   // TODO: Add your tagline
-  tagline: "I build fast, scalable, and beautiful web experiences.",
+  tagline: "I build fast, scalable, and beautiful digital experiences.",
   // TODO: Add your short bio
-  bio: "I'm Riya — a full‑stack developer and 2nd‑year engineering student. I turn ideas into real products. From frontend to backend to AI‑powered applications, I handle the entire development journey. I care about clean design, smooth performance, and real user experience not just the tech behind it, but the impact it creates. I believe in building systems with thoughtful architecture, good decisions, and resilience under pressure. When I'm not writing code, I'm writing poetry because both are about finding the right words for something complex. Currently open to internships, full‑stack freelance work, and problems worth solving.",
-  // TODO: Add your location
+  bio: "I’m Riya Kaurav, a 2nd-year engineering student at MitsGwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
+  // TODO: Add your availability status
   location:"India",
   // TODO: Add your email
   email: "kauravriya665@gmail.com",
-  // TODO: Add your availability status
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
 
@@ -96,7 +95,7 @@ export const projects: Project[] = [
     title: "Distributed Job Scheduler",
     // TODO: Replace with your project description
     description:
-      "A multi-tenant job queue and scheduling system built with Fastify, BullMQ, PostgreSQL, and Redis. It lets teams submit background jobs, schedule recurring tasks via cron, and monitor execution all behind a secure dual-auth API. ",
+      "A multi-tenant job queue and scheduling system built with Fastify, BullMQ, PostgreSQL, and Redis. It lets teams submit background jobs, schedule recurring tasks via cron, and monitor execution all behind a secure dual-auth API. Containerized the full stack using Docker and Docker Compose, configured Nginx as a reverse proxy, and built a GitHub Actions CI pipeline with automated linting, database migrations, and 10 integration tests running against live Postgres and Redis service containers.  ",
     
     techStack: ["Node.js",
     "Fastify",

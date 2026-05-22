@@ -24,7 +24,7 @@ export default function Blog() {
         transition={{ duration: 0.5, delay: 0.08 }}
         className="font-body text-sm text-text-secondary mb-6 max-w-md"
       >
-        i write about things i build, learn, and find interesting — mostly around tech and my personal journey.
+        write about what I learn while building projects, exploring system design, debugging real problems, and growing as a developer in the AI era. This space is a collection of my learnings, experiments, mistakes, and thoughts around tech.
       </motion.p>
 
       <motion.a

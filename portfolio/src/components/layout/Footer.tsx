@@ -25,7 +25,7 @@ export default function Footer() {
 
           {/* Center: nav */}
           <nav className="flex items-center gap-6 text-sm text-text-muted">
-            {["about", "projects", "experience", "contact"].map((s) => (
+            {["about", "work", "experience", "skills", "blog"].map((s) => (
               <button
                 key={s}
                 onClick={() =>
