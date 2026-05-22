@@ -1,107 +1,60 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, Download } from "lucide-react";
-import { personalInfo, skills } from "@/data/portfolio";
-import SectionWrapper, {
-  SectionHeading,
-} from "@/components/ui/SectionWrapper";
-
-const allSkills = [
-  ...skills.languages,
-  ...skills.frameworksAndlibraries,
-  ...skills.databases,
-  ...skills.tools,
-  ...skills.others,
-];
+import { personalInfo } from "@/data/portfolio";
+import { MapPin, Download } from "lucide-react";
 
 export default function About() {
   return (
-    <SectionWrapper id="about">
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeading
-          label="// about.me"
-          title="Who I Am"
-          subtitle="A little bit about me and what I bring to the table."
-        />
+    <section id="about" className="max-w-5xl mx-auto px-6 py-20">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="font-display font-bold text-2xl text-text-primary mb-8"
+      >
+        about me
+      </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
+      <div className="max-w-xl space-y-5">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="flex flex-col gap-8"
+          transition={{ duration: 0.5, delay: 0.06 }}
+          className="font-body text-sm text-text-secondary leading-relaxed"
         >
-          {/* Bio */}
-          <p className="text-text-secondary text-base leading-relaxed font-body max-w-4xl">
-            {personalInfo.bio}
-          </p>
+          {personalInfo.bio}
+        </motion.p>
 
-          {/* Skills */}
-          <div>
-            <p className="text-xs font-mono text-text-muted mb-3">
-              // tech i work with
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex items-center gap-1.5 text-text-muted text-sm font-body"
+        >
+          <MapPin size={13} strokeWidth={1.5} />
+          {personalInfo.location}
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-wrap gap-2"
-            >
-              {allSkills.map((skill, i) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.02 }}
-                  className="inline-flex items-center px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-[12px] font-semibold text-white/80 hover:bg-accent-cyan/10 hover:border-accent-cyan/20 hover:text-accent-cyan transition-all duration-200 cursor-default"
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Meta */}
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Location */}
-            <div className="flex items-center gap-2 text-text-muted text-sm font-body">
-              <MapPin
-                size={13}
-                className="text-accent-cyan flex-shrink-0"
-              />
-              {personalInfo.location}
-            </div>
-
-            <div className="w-px h-4 bg-border-subtle hidden sm:block" />
-
-            {/* Email */}
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="flex items-center gap-2 text-text-muted text-sm font-body hover:text-accent-cyan transition-colors"
-            >
-              <Mail
-                size={13}
-                className="text-accent-cyan flex-shrink-0"
-              />
-              {personalInfo.email}
-            </a>
-
-            <div className="w-px h-4 bg-border-subtle hidden sm:block" />
-
-            {/* Resume */}
-           
-          </div>
-
-          
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.14 }}
+        >
+          <a
+            href={personalInfo.resumeUrl}
+            download
+            className="inline-flex items-center gap-1.5 font-body text-sm text-text-muted hover:text-text-primary transition-colors"
+          >
+            <Download size={13} strokeWidth={1.5} />
+            download resume
+          </a>
         </motion.div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

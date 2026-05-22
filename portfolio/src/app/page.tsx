@@ -2,11 +2,12 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Projects from "@/components/sections/Projects";
-// import Services from "@/components/sections/Services";
-import Contact from "@/components/sections/Contact";
+import Experience from "@/components/sections/Experience";
+import Work from "@/components/sections/Work";
+import Blog from "@/components/sections/Blog";
+// import OpenSource from "@/components/sections/OpenSource";
+import Skills from "@/components/sections/Skills";
 import CustomCursor from "@/components/ui/CustomCursor";
-import { Analytics } from "@vercel/analytics/next"
 
 export default function Home() {
   return (
@@ -15,11 +16,12 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+         <Work />
         <About />
-        <Projects />
-        <Analytics />
-        {/* <Services /> */}
-        <Contact />
+        <Experience />
+        <Skills />
+        <Blog />
+        {/* <OpenSource /> */}
       </main>
       <Footer />
     </>

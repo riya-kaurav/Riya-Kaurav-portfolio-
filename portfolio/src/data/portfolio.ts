@@ -1,16 +1,15 @@
-//PORTFOLIO DATA — Edit everything here to personalize
 
 export const personalInfo = {
   // TODO: Add your name
   name: "Riya Kaurav",
   // TODO: Add your title/role
-  title: "Full Stack Engineer ",
+  title: "Full-Stack Developer",
   // TODO: Add your tagline
-  tagline: "20. full stack dev. open to internships & freelance.",
+  tagline: "I build fast, scalable, and beautiful web experiences.",
   // TODO: Add your short bio
   bio: "I'm Riya — a full‑stack developer and 2nd‑year engineering student. I turn ideas into real products. From frontend to backend to AI‑powered applications, I handle the entire development journey. I care about clean design, smooth performance, and real user experience not just the tech behind it, but the impact it creates. I believe in building systems with thoughtful architecture, good decisions, and resilience under pressure. When I'm not writing code, I'm writing poetry because both are about finding the right words for something complex. Currently open to internships, full‑stack freelance work, and problems worth solving.",
- // TODO: Add your location
-  location: "India",
+  // TODO: Add your location
+  location:"India",
   // TODO: Add your email
   email: "kauravriya665@gmail.com",
   // TODO: Add your availability status
@@ -20,19 +19,19 @@ export const personalInfo = {
   // TODO: Add your social links
   socials: {
     github: "https://github.com/riya-kaurav",
-    linkedin: "https://www.linkedin.com/in/riya-kaurav-23b008329/",
-    twitter: "https://x.com/Riya_K11",
-    // TODO: Optional extras
-    // dribbble: "",
-    // youtube: "",
+    linkedin: "https://linkedin.com/in/riya-kaurav",
+    twitter: "https://twitter.com/yourusername",
+    // TODO: Add your Hashnode blog URL
+    medium: "https://medium.com/@kauravriya665",
   },
 
   // TODO: Replace with your real resume URL
   resumeUrl: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
 };
 
+// ============================================================
 //  SKILLS — TODO: Update with your actual skills
-
+// ============================================================
 export const skills = {
 
   languages: [
@@ -73,10 +72,9 @@ export const skills = {
   ],
   // TODO: Add more categories if needed
 };
-
-
-//  PROJECTS — TODO: Replace with your real projects
-
+// ============================================================
+// 💼 PROJECTS — TODO: Replace with your real projects
+// ============================================================
 export interface Project {
   id: number;
   title: string;
@@ -86,9 +84,10 @@ export interface Project {
   githubUrl?: string;
   featured: boolean;
   year: string;
-  
+  // TODO: Optionally add an image URL
   imageUrl?: string;
 }
+
 
 export const projects: Project[] = [
   {
@@ -184,6 +183,7 @@ export interface Experience {
   company: string;
   companyUrl?: string;
   duration: string;
+  location?: string;
   type: "Full-time" | "Internship" | "Freelance" | "Contract";
   description: string;
   highlights: string[];
@@ -194,123 +194,27 @@ export const experiences: Experience[] = [
   {
     id: 1,
     // TODO: Add your role
-    role: "Software Engineer Intern",
+    role: "Frontend Developer Intern",
     // TODO: Add the company name
-    company: "TechCorp Inc.",
+    company: "Eena Pvt. Ltd.",
     // TODO: Add the company URL
-    companyUrl: "https://techcorp.io",
+    
     // TODO: Add the duration
-    duration: "Jun 2024 – Aug 2024",
+    duration: "Jan 2026 – Feb 2026",
+    // TODO: Add location
+    location: "Remote",
     type: "Internship",
     // TODO: Write what you did
     description:
-      "Worked on the core product team building features used by 50k+ daily active users. Shipped 3 major features and improved page load time by 40%.",
+      "Worked on the core product team building features. Shipped 4 major features.",
     // TODO: Add bullet-point highlights
     highlights: [
-      "Rebuilt the dashboard UI with React and Tailwind, reducing bundle size by 30%",
-      "Integrated Stripe billing with webhook handling for subscription management",
-      "Wrote E2E tests with Playwright, increasing test coverage from 40% to 75%",
+      "Rebuilt the dashboard UI with Nextjs and Tailwind CSS, improving load times by 30%",
+      "Collaborated with designers to implement a new design system, increasing UI consistency across the app",
+      
     ],
-    techStack: ["React", "TypeScript", "Node.js", "Stripe", "PostgreSQL"],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
   },
-  {
-    id: 2,
-    role: "Freelance Developer",
-    company: "Self-Employed",
-    duration: "Jan 2023 – Present",
-    type: "Freelance",
-    description:
-      "Building custom web applications and MVPs for startups and small businesses across various industries.",
-    highlights: [
-      "Delivered 10+ client projects on time and within budget",
-      "Built a SaaS MVP that helped a startup raise their seed round",
-      "Maintained 5-star rating across freelance platforms",
-    ],
-    techStack: ["Next.js", "React", "Node.js", "Tailwind", "PostgreSQL"],
-  },
+  
 ];
 
-// ============================================================
-// 🎯 SERVICES — TODO: Customize based on your actual offerings
-// ============================================================
-export interface Service {
-  id: number;
-  icon: string;
-  title: string;
-  description: string;
-  features: string[];
-}
-
-export const services: Service[] = [
-  {
-    id: 1,
-    icon: "🏗️",
-    title: "Backend & API Development",
-    description:
-      "Scalable REST APIs and server-side architecture for startups. I design multi-tenant systems, implement secure authentication, and optimize databases for production. From auth flows to payment integrations, I handle the backend foundation.",
-    features: [
-      "REST API design & optimization",
-      "JWT & role-based access control",
-      "Database design (PostgreSQL/MongoDB)",
-      "Redis caching & performance tuning",
-      "Docker containerization",
-    ],
-  },
-  {
-    id: 2,
-    icon: "⚡",
-    title: "Full-Stack Product Development",
-    description:
-      "End-to-end product development from concept to deployment. I build complete applications with modern frontend, robust backend, and production-ready infrastructure. Perfect for MVPs and scaling startups.",
-    features: [
-      "Next.js & React frontends",
-      "Express.js/Node.js backends",
-      "Multi-tenant architecture",
-      "API authentication & authorization",
-      "Database optimization & migrations",
-      "Docker & deployment pipelines",
-    ],
-  },
-  {
-    id: 3,
-    icon: "🚀",
-    title: "Startup MVP & Rapid Development",
-    description:
-      "Quick-turnaround MVP development for founders. I ship scalable, production-ready code fast. Focus on what matters: solving the core problem, validating the idea, and building investor-ready demos.",
-    features: [
-      "Rapid prototyping (weeks, not months)",
-      "Scalable from day one",
-      "Clean, maintainable code",
-      "Quick iterations & pivots",
-      "Deployment & post-launch support",
-    ],
-  },
-  {
-    id: 4,
-    icon: "🔧",
-    title: "System Design & Architecture",
-    description:
-      "Technical architecture consulting for growing teams. I audit codebases, design scalable systems, and help teams transition from monoliths to distributed architectures. Everything from database optimization to deployment strategy.",
-    features: [
-      "API architecture & design patterns",
-      "Database optimization & indexing",
-      "Scalability planning",
-      "Docker & infrastructure setup",
-      "Code quality & performance audits",
-    ],
-  },
-  {
-    id: 5,
-    icon: "🤖",
-    title: "AI Integration & Modern Features",
-    description:
-      "Integrate AI capabilities into your product. From LLM APIs to intelligent features, I help you add modern AI functionality without overcomplicating your stack.",
-    features: [
-      "LLM API integration",
-      "Smart feature implementation",
-      "Prompt engineering",
-      "Real-time data processing",
-      "AI-powered recommendations",
-    ],
-  },
-];

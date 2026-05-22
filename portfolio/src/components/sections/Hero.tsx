@@ -1,194 +1,288 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Github,
-  Linkedin,
-  Twitter,
-  ArrowDown,
-  Sparkles,
-} from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, BookOpen, User } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
-import {
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
-import dynamic from "next/dynamic";
-
-// Dynamic import to prevent hydration mismatch
-const GitHubCalendar = dynamic<{
-  username: string;
-  blockSize?: number;
-  blockMargin?: number;
-  fontSize?: number;
-}>(
-  async () => {
-    const mod = (await import("react-github-calendar")) as any;
-    return mod.default || mod.GitHubCalendar;
-  },
-  {
-    ssr: false,
-    loading: () => (
-      <div className="text-sm text-text-muted">
-        Loading GitHub activity...
-      </div>
-    ),
-  }
-);
-
-// ==============================
-// Typewriter Hook
-// ==============================
-function useTypewriter(words: string[], speed = 90) {
+import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
+// ── Typewriter ──────────────────────────────────────────────
+function useTypewriter(words: string[], speed = 80) {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const [text, setText] = useState("");
 
   useEffect(() => {
-    const currentWord = words[index];
-
-    if (!deleting && subIndex === currentWord.length) {
-      const timeout = setTimeout(() => {
-        setDeleting(true);
-      }, 1800);
-
-      return () => clearTimeout(timeout);
+    if (subIndex === words[index].length + 1 && !deleting) {
+      const t = setTimeout(() => setDeleting(true), 1800);
+      return () => clearTimeout(t);
     }
-
-    if (deleting && subIndex === 0) {
+    if (subIndex === 0 && deleting) {
       setDeleting(false);
-      setIndex((prev) => (prev + 1) % words.length);
+      setIndex((p) => (p + 1) % words.length);
       return;
     }
+    const t = setTimeout(
+      () => {
+        setText(words[index].substring(0, subIndex));
+        setSubIndex((p) => p + (deleting ? -1 : 1));
+      },
+      deleting ? speed / 2 : speed
+    );
+    return () => clearTimeout(t);
+  }, [subIndex, index, deleting, words, speed]);
 
-    const timeout = setTimeout(() => {
-      setSubIndex((prev) => prev + (deleting ? -1 : 1));
-    }, deleting ? speed / 2 : speed);
-
-    return () => clearTimeout(timeout);
-  }, [subIndex, deleting, index, words, speed]);
-
-  return words[index].substring(0, subIndex);
+  return text;
 }
 
-// ==============================
-// Animation Variants
-// ==============================
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
+// ── GitHub Heatmap ──────────────────────────────────────────
+interface ContribDay {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
 
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
+function buildGrid(weeks: { contributionDays: ContribDay[] }[]): ContribDay[][] {
+  return weeks.map((w) => w.contributionDays);
+}
 
-// ==============================
-// Hero Component
-// ==============================
-export default function Hero() {
-  const roles = useMemo(
-    () => [
-      "Full-Stack Developer",
-      "Backend Engineer",
-      "Open Source Contributor",
-    ],
-    []
-  );
+const MONTH_LABELS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DAY_LABELS   = ["","Mon","","Wed","","Fri",""];
 
-  const typedRole = useTypewriter(roles);
+function GitHubHeatmap({ username }: { username: string }) {
+  const [weeks, setWeeks]   = useState<ContribDay[][]>([]);
+  const [total, setTotal]   = useState<number | null>(null);
+  const [error, setError]   = useState(false);
+  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
 
-  const scrollToSection = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, []);
+  const fetchContribs = useCallback(async () => {
+    try {
+      // Use the public GitHub contributions API proxy (no auth required)
+      const res = await fetch(
+        `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
+      );
+      if (!res.ok) throw new Error("fetch failed");
+      const json = await res.json();
+
+      // Normalize response shape
+      const contributions: ContribDay[] = (json.contributions as Array<{
+        date: string; count: number; level: number;
+      }>).map((d) => ({
+        date: d.date,
+        count: d.count,
+        level: Math.min(d.level, 4) as ContribDay["level"],
+      }));
+
+      // Group into weeks of 7
+      const grouped: ContribDay[][] = [];
+      for (let i = 0; i < contributions.length; i += 7) {
+        grouped.push(contributions.slice(i, i + 7));
+      }
+      setWeeks(grouped);
+      setTotal(contributions.reduce((s, d) => s + d.count, 0));
+    } catch {
+      setError(true);
+    }
+  }, [username]);
+
+  useEffect(() => { fetchContribs(); }, [fetchContribs]);
+
+  // Derive month label positions from week data
+  const monthPositions: { label: string; col: number }[] = [];
+  weeks.forEach((week, col) => {
+    if (week[0]) {
+      const m = parseInt(week[0].date.split("-")[1], 10) - 1;
+      const prev = weeks[col - 1]?.[0];
+      const prevM = prev ? parseInt(prev.date.split("-")[1], 10) - 1 : -1;
+      if (m !== prevM) monthPositions.push({ label: MONTH_LABELS[m], col });
+    }
+  });
+
+  if (error) {
+    return (
+      <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
+        couldn&apos;t load contributions
+      </p>
+    );
+  }
+
+  if (weeks.length === 0) {
+    return (
+      <div className="flex gap-1 flex-wrap">
+        {Array.from({ length: 52 }).map((_, wi) => (
+          <div key={wi} className="flex flex-col gap-1">
+            {Array.from({ length: 7 }).map((_, di) => (
+              <div
+                key={di}
+                className="heat-cell animate-pulse"
+                style={{ background: "var(--heat-0)" }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid">
-      {/* Background Glow Effects */}
-      <div className="glow-orb w-[500px] h-[500px] bg-accent-cyan/10 top-0 left-1/2 -translate-x-1/2 -translate-y-1/4" />
+    <div className="relative select-none">
+      {/* Month labels */}
+      <div className="flex mb-1 ml-7 relative h-4">
+        {monthPositions.map(({ label, col }) => (
+          <span
+            key={`${label}-${col}`}
+            className="absolute font-mono text-[10px]"
+            style={{
+              left: col * 13,
+              color: "var(--text-muted)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
 
-      <div className="glow-orb w-[320px] h-[320px] bg-accent-green/10 bottom-1/4 right-1/4" />
+      <div className="flex gap-1">
+        {/* Day labels */}
+        <div className="flex flex-col gap-1 mr-1">
+          {DAY_LABELS.map((d, i) => (
+            <span
+              key={i}
+              className="font-mono text-[9px] h-[11px] flex items-center"
+              style={{ color: "var(--text-muted)", width: 20 }}
+            >
+              {d}
+            </span>
+          ))}
+        </div>
 
-      <div className="glow-orb w-[220px] h-[220px] bg-accent-purple/10 top-1/2 left-1/4" />
+        {/* Grid */}
+        <div className="flex gap-[3px] overflow-x-auto pb-1">
+          {weeks.map((week, wi) => (
+            <div key={wi} className="flex flex-col gap-[3px]">
+              {week.map((day, di) => (
+                <div
+                  key={di}
+                  className="heat-cell cursor-pointer transition-opacity hover:opacity-70"
+                  data-level={day.level}
+                  onMouseEnter={(e) => {
+                    const rect = (e.target as HTMLElement).getBoundingClientRect();
+                    setTooltip({
+                      text: `${day.count} contrib${day.count !== 1 ? "s" : ""} on ${day.date}`,
+                      x: rect.left + rect.width / 2,
+                      y: rect.top - 6,
+                    });
+                  }}
+                  onMouseLeave={() => setTooltip(null)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
-      {/* Floating Particles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1.5 h-1.5 rounded-full bg-accent-cyan/30"
+      {/* Footer: total + legend */}
+      <div className="flex items-center justify-between mt-2 ml-7">
+        {total !== null && (
+          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>
+            {total.toLocaleString()} contributions in the last year
+          </span>
+        )}
+        <div className="flex items-center gap-1 ml-auto">
+          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>less</span>
+          {([0, 1, 2, 3, 4] as const).map((l) => (
+            <div key={l} className="heat-cell" data-level={l} />
+          ))}
+          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>more</span>
+        </div>
+      </div>
+
+      {/* Tooltip */}
+      {tooltip && (
+        <div
+          className="fixed z-50 pointer-events-none font-mono text-[11px] px-2 py-1 rounded"
           style={{
-            left: `${15 + i * 14}%`,
-            top: `${20 + (i % 3) * 24}%`,
+            left: tooltip.x,
+            top: tooltip.y,
+            transform: "translate(-50%, -100%)",
+            background: "var(--bg-elevated)",
+            color: "var(--text-secondary)",
+            border: "1px solid var(--border-subtle)",
+            whiteSpace: "nowrap",
           }}
-          animate={{
-            y: [0, -18, 0],
-            opacity: [0.2, 0.7, 0.2],
-          }}
-          transition={{
-            duration: 3 + i * 0.4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.6,
-          }}
-        />
-      ))}
+        >
+          {tooltip.text}
+        </div>
+      )}
+    </div>
+  );
+}
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-16 w-full">
+// ── Animations ──────────────────────────────────────────────
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09 } },
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+// ── Component ───────────────────────────────────────────────
+export default function Hero() {
+  const roles = [
+    "Full-Stack Developer",
+  ];
+  const typedRole = useTypewriter(roles);
+
+  // Extract GitHub username from URL
+  const githubUsername =
+    personalInfo.socials.github?.replace(/.*github\.com\//, "").replace(/\/$/, "") ??
+    "yourusername";
+
+  return (
+    <section className="min-h-screen flex items-start pt-24">
+      <div className="max-w-5xl mx-auto px-6 py-12 w-full">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl"
+          className="max-w-2xl"
         >
-          {/* Availability */}
-          {personalInfo.availableForWork && (
-            <motion.div
-              variants={itemVariants}
-              className="mb-8"
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-xs font-mono backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75 animate-ping" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-green" />
-                </span>
+        {/* ── Profile picture ── */}
+{/* <motion.div variants={itemVariants} className="mb-7">
+  <div
+    className="avatar-ring w-20 h-20 overflow-hidden flex items-center justify-center"
+    style={{ background: "var(--bg-elevated)" }}
+  >
+    <Image
+      src="/image.jpeg"   // ✅ no /public prefix
+      alt="Your name"
+      width={80}
+      height={80}
+      className="object-cover"
+    /> */}
+    {/* Optional fallback icon if image not found */}
+    {/* <User size={32} style={{ color: "var(--text-muted)" }} strokeWidth={1.2} /> */}
+  {/* </div>
+</motion.div> */}
 
-                {personalInfo.availabilityText}
-              </span>
-            </motion.div>
-          )}
 
           {/* Greeting */}
           <motion.p
             variants={itemVariants}
-            className="font-mono text-accent-cyan text-sm tracking-[0.25em] mb-4"
+            className="font-body text-base mb-2"
+            style={{ color: "var(--text-muted)" }}
           >
-            Hello, world! I&apos;m
+            hey! i&apos;m
           </motion.p>
 
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-display font-black text-5xl md:text-7xl leading-[1.05] tracking-tight text-text-primary mb-4"
+            className="font-display font-extrabold text-5xl md:text-7xl leading-[1.05] tracking-tight mb-3"
+            style={{ color: "var(--text-primary)" }}
           >
             {personalInfo.name}
           </motion.h1>
@@ -196,152 +290,68 @@ export default function Hero() {
           {/* Typewriter */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center h-14 mb-6"
+            className="font-display text-xl md:text-2xl font-semibold mb-5 h-9 flex items-center"
+            style={{ color: "var(--text-secondary)" }}
           >
-            <span className="text-2xl md:text-4xl font-bold text-gradient-cyan">
-              {typedRole}
-            </span>
-
-            <span className="ml-1 w-[2px] h-8 bg-accent-cyan animate-pulse" />
+            {typedRole}
+            <span
+              className="inline-block w-0.5 h-6 ml-1 animate-blink"
+              style={{ background: "var(--text-secondary)" }}
+            />
           </motion.div>
 
           {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="max-w-2xl text-lg md:text-xl leading-relaxed text-text-secondary mb-10"
+            className="font-body text-base md:text-lg leading-relaxed max-w-lg mb-8"
+            style={{ color: "var(--text-secondary)" }}
           >
             {personalInfo.tagline}
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Contact bar */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap items-center gap-4 mb-12"
+            className="flex items-center gap-5 flex-wrap mb-16"
           >
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-accent-cyan px-7 py-3.5 text-sm font-bold text-bg-primary transition-all duration-300 hover:scale-[1.03] hover:shadow-glow-cyan active:scale-[0.98]"
-            >
-              <span className="relative z-10">
-                View Projects
-              </span>
-
-              <Sparkles
-                size={15}
-                className="relative z-10"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan to-accent-green opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </button>
-
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="inline-flex items-center gap-2 rounded-xl border border-border-active px-7 py-3.5 text-sm font-bold text-text-primary transition-all duration-300 hover:border-accent-cyan/50 hover:bg-accent-cyan/5 hover:text-accent-cyan"
-            >
-              Contact Me
-            </button>
+            {personalInfo.socials.github && (
+              <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
+                <Github size={19} strokeWidth={1.5} />
+              </a>
+            )}
+            {personalInfo.socials.linkedin && (
+              <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
+                <Linkedin size={19} strokeWidth={1.5} />
+              </a>
+            )}
+            {personalInfo.socials.twitter && (
+              <a href={personalInfo.socials.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter"
+                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
+                <Twitter size={19} strokeWidth={1.5} />
+              </a>
+            )}
+            
+            {personalInfo.email && (
+              <a href={`mailto:${personalInfo.email}`} aria-label="Email"
+                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
+                <Mail size={19} strokeWidth={1.5} />
+              </a>
+            )}
           </motion.div>
 
-         
-
-          {/* Social Links */}
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center gap-4"
-          >
-            <span className="font-mono text-xs text-text-muted">
-              Find me on
-            </span>
-
-            <div className="w-8 h-px bg-border-active" />
-
-            <div className="flex items-center gap-3">
-              {[
-                {
-                  href: personalInfo.socials.github,
-                  icon: Github,
-                  label: "GitHub",
-                },
-                {
-                  href: personalInfo.socials.linkedin,
-                  icon: Linkedin,
-                  label: "LinkedIn",
-                },
-                {
-                  href: personalInfo.socials.twitter,
-                  icon: Twitter,
-                  label: "Twitter",
-                },
-              ]
-                .filter((item) => item.href)
-                .map((item, index) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <a
-                      key={index}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={item.label}
-                      className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-subtle text-text-muted transition-all duration-300 hover:border-accent-cyan/40 hover:bg-accent-cyan/5 hover:text-accent-cyan"
-                    >
-                      <Icon size={18} />
-                    </a>
-                  );
-                })}
-            </div>
+          {/* ── GitHub Heatmap ── */}
+          <motion.div variants={itemVariants}>
+            <p
+              className="font-mono text-xs mb-3"
+              style={{ color: "var(--text-muted)" }}
+            >
+              github contributions
+            </p>
+            <GitHubHeatmap username={githubUsername} />
           </motion.div>
         </motion.div>
-
-        {/* GitHub Calendar */}
-<motion.div
-  variants={itemVariants}
-  initial="hidden"
-  animate="visible"
-  className="mt-24 flex flex-col items-center w-full"
->
-  <h2 className="mb-6 text-center text-xl font-bold text-text-primary">
-    My GitHub Contributions
-  </h2>
-
-  <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-3 sm:p-4 md:p-6 backdrop-blur-md">
-    <div className="min-w-[720px] flex justify-center">
-      {/* @ts-ignore */}
-      <GitHubCalendar
-  username="riya-kaurav"
-  blockSize={typeof window !== "undefined" && window.innerWidth < 640 ? 8 : 12}
-  blockMargin={typeof window !== "undefined" && window.innerWidth < 640 ? 3 : 4}
-  fontSize={typeof window !== "undefined" && window.innerWidth < 640 ? 10 : 14}
-/>
-    </div>
-  </div>
-</motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          onClick={() => scrollToSection("projects")}
-          className="group absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-text-muted transition-colors hover:text-accent-cyan"
-        >
-          <span className="font-mono text-xs tracking-[0.3em]">
-            SCROLL
-          </span>
-
-          <motion.div
-            animate={{
-              y: [0, 6, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-            }}
-          >
-            <ArrowDown size={16} />
-          </motion.div>
-        </motion.button>
       </div>
     </section>
   );
