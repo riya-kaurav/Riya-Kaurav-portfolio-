@@ -1,11 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail, BookOpen, User } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  ArrowDown,
+  Sparkles,
+} from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
-import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-// ── Typewriter ──────────────────────────────────────────────
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+// Typewriter hook
 function useTypewriter(words: string[], speed = 80) {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
@@ -14,344 +21,274 @@ function useTypewriter(words: string[], speed = 80) {
 
   useEffect(() => {
     if (subIndex === words[index].length + 1 && !deleting) {
-      const t = setTimeout(() => setDeleting(true), 1800);
-      return () => clearTimeout(t);
+      const timeout = setTimeout(() => setDeleting(true), 1800);
+      return () => clearTimeout(timeout);
     }
+
     if (subIndex === 0 && deleting) {
       setDeleting(false);
-      setIndex((p) => (p + 1) % words.length);
+      setIndex((prev) => (prev + 1) % words.length);
       return;
     }
-    const t = setTimeout(
+
+    const timeout = setTimeout(
       () => {
         setText(words[index].substring(0, subIndex));
-        setSubIndex((p) => p + (deleting ? -1 : 1));
+        setSubIndex((prev) => prev + (deleting ? -1 : 1));
       },
       deleting ? speed / 2 : speed
     );
-    return () => clearTimeout(t);
+
+    return () => clearTimeout(timeout);
   }, [subIndex, index, deleting, words, speed]);
 
   return text;
 }
 
-// ── GitHub Heatmap ──────────────────────────────────────────
-interface ContribDay {
-  date: string;
-  count: number;
-  level: 0 | 1 | 2 | 3 | 4;
-}
-
-function buildGrid(weeks: { contributionDays: ContribDay[] }[]): ContribDay[][] {
-  return weeks.map((w) => w.contributionDays);
-}
-
-const MONTH_LABELS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const DAY_LABELS   = ["","Mon","","Wed","","Fri",""];
-
-function GitHubHeatmap({ username }: { username: string }) {
-  const [weeks, setWeeks]   = useState<ContribDay[][]>([]);
-  const [total, setTotal]   = useState<number | null>(null);
-  const [error, setError]   = useState(false);
-  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
-
-  const fetchContribs = useCallback(async () => {
-    try {
-      // Use the public GitHub contributions API proxy (no auth required)
-      const res = await fetch(
-        `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
-      );
-      if (!res.ok) throw new Error("fetch failed");
-      const json = await res.json();
-
-      // Normalize response shape
-      const contributions: ContribDay[] = (json.contributions as Array<{
-        date: string; count: number; level: number;
-      }>).map((d) => ({
-        date: d.date,
-        count: d.count,
-        level: Math.min(d.level, 4) as ContribDay["level"],
-      }));
-
-      // Group into weeks of 7
-      const grouped: ContribDay[][] = [];
-      for (let i = 0; i < contributions.length; i += 7) {
-        grouped.push(contributions.slice(i, i + 7));
-      }
-      setWeeks(grouped);
-      setTotal(contributions.reduce((s, d) => s + d.count, 0));
-    } catch {
-      setError(true);
-    }
-  }, [username]);
-
-  useEffect(() => { fetchContribs(); }, [fetchContribs]);
-
-  // Derive month label positions from week data
-  const monthPositions: { label: string; col: number }[] = [];
-  weeks.forEach((week, col) => {
-    if (week[0]) {
-      const m = parseInt(week[0].date.split("-")[1], 10) - 1;
-      const prev = weeks[col - 1]?.[0];
-      const prevM = prev ? parseInt(prev.date.split("-")[1], 10) - 1 : -1;
-      if (m !== prevM) monthPositions.push({ label: MONTH_LABELS[m], col });
-    }
-  });
-
-  if (error) {
-    return (
-      <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
-        couldn&apos;t load contributions
-      </p>
-    );
-  }
-
-  if (weeks.length === 0) {
-    return (
-      <div className="flex gap-1 flex-wrap">
-        {Array.from({ length: 52 }).map((_, wi) => (
-          <div key={wi} className="flex flex-col gap-1">
-            {Array.from({ length: 7 }).map((_, di) => (
-              <div
-                key={di}
-                className="heat-cell animate-pulse"
-                style={{ background: "var(--heat-0)" }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative select-none">
-      {/* Month labels */}
-      <div className="flex mb-1 ml-7 relative h-4">
-        {monthPositions.map(({ label, col }) => (
-          <span
-            key={`${label}-${col}`}
-            className="absolute font-mono text-[10px]"
-            style={{
-              left: col * 13,
-              color: "var(--text-muted)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {label}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex gap-1">
-        {/* Day labels */}
-        <div className="flex flex-col gap-1 mr-1">
-          {DAY_LABELS.map((d, i) => (
-            <span
-              key={i}
-              className="font-mono text-[9px] h-[11px] flex items-center"
-              style={{ color: "var(--text-muted)", width: 20 }}
-            >
-              {d}
-            </span>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <div className="flex gap-[3px] overflow-x-auto pb-1">
-          {weeks.map((week, wi) => (
-            <div key={wi} className="flex flex-col gap-[3px]">
-              {week.map((day, di) => (
-                <div
-                  key={di}
-                  className="heat-cell cursor-pointer transition-opacity hover:opacity-70"
-                  data-level={day.level}
-                  onMouseEnter={(e) => {
-                    const rect = (e.target as HTMLElement).getBoundingClientRect();
-                    setTooltip({
-                      text: `${day.count} contrib${day.count !== 1 ? "s" : ""} on ${day.date}`,
-                      x: rect.left + rect.width / 2,
-                      y: rect.top - 6,
-                    });
-                  }}
-                  onMouseLeave={() => setTooltip(null)}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer: total + legend */}
-      <div className="flex items-center justify-between mt-2 ml-7">
-        {total !== null && (
-          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>
-            {total.toLocaleString()} contributions in the last year
-          </span>
-        )}
-        <div className="flex items-center gap-1 ml-auto">
-          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>less</span>
-          {([0, 1, 2, 3, 4] as const).map((l) => (
-            <div key={l} className="heat-cell" data-level={l} />
-          ))}
-          <span className="font-mono text-[10px]" style={{ color: "var(--text-muted)" }}>more</span>
-        </div>
-      </div>
-
-      {/* Tooltip */}
-      {tooltip && (
-        <div
-          className="fixed z-50 pointer-events-none font-mono text-[11px] px-2 py-1 rounded"
-          style={{
-            left: tooltip.x,
-            top: tooltip.y,
-            transform: "translate(-50%, -100%)",
-            background: "var(--bg-elevated)",
-            color: "var(--text-secondary)",
-            border: "1px solid var(--border-subtle)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {tooltip.text}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── Animations ──────────────────────────────────────────────
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09 } },
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
 };
+
 const itemVariants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 };
 
-// ── Component ───────────────────────────────────────────────
-export default function Hero() {
-  const roles = [
-    "Full-Stack Developer",
-  ];
-  const typedRole = useTypewriter(roles);
+// Dynamic import to prevent hydration mismatch
+const GitHubCalendar = dynamic<{
+  username: string;
+  blockSize?: number;
+  blockMargin?: number;
+  fontSize?: number;
+}>(
+  async () => {
+    const mod = (await import("react-github-calendar")) as any;
+    return mod.default || mod.GitHubCalendar;
+  },
+  {
+    ssr: false,
+    loading: () => (
+      <div className="text-sm text-text-muted">
+        Loading GitHub activity...
+      </div>
+    ),
+  }
+);
 
-  // Extract GitHub username from URL
-  const githubUsername =
-    personalInfo.socials.github?.replace(/.*github\.com\//, "").replace(/\/$/, "") ??
-    "yourusername";
+export default function Hero() {
+
+  const scrollToProjects = () => {
+    document
+      .getElementById("projects")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToContact = () => {
+    document
+      .getElementById("contact")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <section className="min-h-screen flex items-start pt-24">
-      <div className="max-w-5xl mx-auto px-6 py-12 w-full">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid">
+      {/* Background Glows */}
+      <div className="glow-orb w-[500px] h-[500px] bg-accent-cyan/8 top-0 left-1/2 -translate-x-1/2 -translate-y-1/4" />
+      <div className="glow-orb w-[300px] h-[300px] bg-accent-green/5 bottom-1/4 right-1/4" />
+      <div className="glow-orb w-[200px] h-[200px] bg-accent-purple/5 top-1/2 left-1/4" />
+
+      {/* Floating particles */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-accent-cyan/30"
+          style={{
+            left: `${15 + i * 15}%`,
+            top: `${20 + (i % 3) * 25}%`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.2, 0.6, 0.2],
+          }}
+          transition={{
+            duration: 3 + i * 0.5,
+            repeat: Infinity,
+            delay: i * 0.8,
+          }}
+        />
+      ))}
+
+      <div className="max-w-6xl mx-auto px-6 pt-24 pb-16 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-2xl"
+          className="max-w-3xl"
         >
-        {/* ── Profile picture ── */}
-{/* <motion.div variants={itemVariants} className="mb-7">
-  <div
-    className="avatar-ring w-20 h-20 overflow-hidden flex items-center justify-center"
-    style={{ background: "var(--bg-elevated)" }}
-  >
-    <Image
-      src="/image.jpeg"   // ✅ no /public prefix
-      alt="Your name"
-      width={80}
-      height={80}
-      className="object-cover"
-    /> */}
-    {/* Optional fallback icon if image not found */}
-    {/* <User size={32} style={{ color: "var(--text-muted)" }} strokeWidth={1.2} /> */}
-  {/* </div>
-</motion.div> */}
-
+          {/* Availability Badge */}
+          {personalInfo.availableForWork && (
+            <motion.div variants={itemVariants} className="mb-8">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-xs font-mono">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green"></span>
+                </span>
+                {personalInfo.availabilityText}
+              </span>
+            </motion.div>
+          )}
 
           {/* Greeting */}
           <motion.p
             variants={itemVariants}
-            className="font-body text-base mb-2"
-            style={{ color: "var(--text-muted)" }}
+            className="font-mono text-accent-cyan text-sm tracking-widest mb-4"
           >
-            hey! i&apos;m
+            Hello, world! I&apos;m
           </motion.p>
 
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-display font-extrabold text-5xl md:text-7xl leading-[1.05] tracking-tight mb-3"
-            style={{ color: "var(--text-primary)" }}
+            className="font-display font-extrabold text-5xl md:text-7xl text-text-primary leading-[1.05] tracking-tight mb-4"
           >
             {personalInfo.name}
           </motion.h1>
 
-          {/* Typewriter */}
-          <motion.div
-            variants={itemVariants}
-            className="font-display text-xl md:text-2xl font-semibold mb-5 h-9 flex items-center"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {typedRole}
-            <span
-              className="inline-block w-0.5 h-6 ml-1 animate-blink"
-              style={{ background: "var(--text-secondary)" }}
-            />
-          </motion.div>
 
           {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="font-body text-base md:text-lg leading-relaxed max-w-lg mb-8"
-            style={{ color: "var(--text-secondary)" }}
+            className="text-text-secondary text-lg md:text-xl leading-relaxed max-w-xl mb-10 font-body"
           >
             {personalInfo.tagline}
           </motion.p>
 
-          {/* Contact bar */}
+          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-5 flex-wrap mb-16"
+            className="flex flex-wrap items-center gap-4 mb-12"
           >
-            {personalInfo.socials.github && (
-              <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
-                <Github size={19} strokeWidth={1.5} />
-              </a>
-            )}
-            {personalInfo.socials.linkedin && (
-              <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
-                <Linkedin size={19} strokeWidth={1.5} />
-              </a>
-            )}
-            {personalInfo.socials.twitter && (
-              <a href={personalInfo.socials.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter"
-                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
-                <Twitter size={19} strokeWidth={1.5} />
-              </a>
-            )}
-            
-            {personalInfo.email && (
-              <a href={`mailto:${personalInfo.email}`} aria-label="Email"
-                className="transition-opacity hover:opacity-50" style={{ color: "var(--text-muted)" }}>
-                <Mail size={19} strokeWidth={1.5} />
-              </a>
-            )}
+            <button
+              onClick={scrollToProjects}
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 bg-accent-cyan text-bg-primary font-display font-bold text-sm rounded-xl overflow-hidden transition-all duration-200 hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span className="relative z-10">View Projects</span>
+              <Sparkles size={15} className="relative z-10" />
+
+              <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan to-accent-green opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            </button>
+
+            <button
+              onClick={scrollToContact}
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-border-active text-text-primary font-display font-bold text-sm rounded-xl hover:border-accent-cyan/50 hover:text-accent-cyan hover:bg-accent-cyan/5 transition-all duration-200"
+            >
+              Contact Me
+            </button>
           </motion.div>
 
-          {/* ── GitHub Heatmap ── */}
-          <motion.div variants={itemVariants}>
-            <p
-              className="font-mono text-xs mb-3"
-              style={{ color: "var(--text-muted)" }}
-            >
-              github contributions
-            </p>
-            <GitHubHeatmap username={githubUsername} />
+          {/* Social Links */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center gap-4"
+          >
+            <span className="text-text-muted text-xs font-mono">
+              Find me on
+            </span>
+
+            <div className="w-8 h-px bg-border-active" />
+
+            <div className="flex items-center gap-3">
+              {personalInfo.socials.github && (
+                <a
+                  href={personalInfo.socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
+                  aria-label="GitHub"
+                >
+                  <Github size={17} />
+                </a>
+              )}
+
+              {personalInfo.socials.linkedin && (
+                <a
+                  href={personalInfo.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={17} />
+                </a>
+              )}
+
+              {personalInfo.socials.twitter && (
+                <a
+                  href={personalInfo.socials.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
+                  aria-label="Twitter"
+                >
+                  <Twitter size={17} />
+                </a>
+              )}
+            </div>
           </motion.div>
         </motion.div>
+
+        {/* GitHub Calendar */}
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          animate="visible"
+          className="mt-24 flex flex-col items-center"
+        >
+          <h2 className="mb-6 text-xl font-bold text-text-primary">
+            My GitHub Contributions
+          </h2>
+
+          <div className="overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-6 backdrop-blur-md">
+            {/* @ts-ignore */}
+            <GitHubCalendar
+              username="riya-kaurav"
+              blockSize={12}
+              blockMargin={4}
+              fontSize={14}
+            />
+          </div>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          onClick={scrollToProjects}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-muted hover:text-accent-cyan transition-colors group"
+        >
+          <span className="font-mono text-xs tracking-widest">
+            scroll
+          </span>
+
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <ArrowDown size={16} />
+          </motion.div>
+        </motion.button>
       </div>
     </section>
   );

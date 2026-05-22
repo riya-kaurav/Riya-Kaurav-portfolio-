@@ -7,7 +7,7 @@ export const personalInfo = {
   // TODO: Add your tagline
   tagline: "I build fast, scalable, and beautiful digital experiences.",
   // TODO: Add your short bio
-  bio: "I’m Riya Kaurav, a 2nd-year engineering student at MitsGwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
+  bio: "I’m Riya Kaurav, a 2nd-year engineering student at Mits Gwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
   // TODO: Add your availability status
   location:"India",
   // TODO: Add your email
@@ -19,7 +19,7 @@ export const personalInfo = {
   socials: {
     github: "https://github.com/riya-kaurav",
     linkedin: "https://linkedin.com/in/riya-kaurav",
-    twitter: "https://twitter.com/yourusername",
+    twitter: "https://x.com/Riya_K11",
     // TODO: Add your Hashnode blog URL
     medium: "https://medium.com/@kauravriya665",
   },

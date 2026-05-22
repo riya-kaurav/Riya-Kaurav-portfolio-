@@ -19,13 +19,13 @@ export default function Footer() {
             </p>
             <p className="text-text-muted text-sm mt-1 font-mono">
               {/* TODO: Update tagline */}
-              Code to me is like poetry to the poet.
+              Building the web, one commit at a time.
             </p>
           </div>
 
           {/* Center: nav */}
           <nav className="flex items-center gap-6 text-sm text-text-muted">
-            {["about", "work", "experience", "skills", "blog"].map((s) => (
+            {["about", "projects", "experience", "contact"].map((s) => (
               <button
                 key={s}
                 onClick={() =>

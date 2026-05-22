@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   LIGHT MODE (default)
+   BLACK MINIMAL THEME
    ============================================================ */
 :root {
   --font-display: 'Syne', serif;
@@ -13,57 +13,50 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Backgrounds */
-  --bg-primary:   #ffffff;
-  --bg-secondary: #f7f7f7;
-  --bg-card:      #f2f2f2;
-  --bg-elevated:  #ebebeb;
+  --bg-primary:   #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card:      #111111;
+  --bg-elevated:  #1a1a1a;
 
   /* Text */
-  --text-primary:   #0a0a0a;
-  --text-secondary: #3a3a3a;
-  --text-muted:     #888888;
+  --text-primary:   #f5f5f5;
+  --text-secondary: #b3b3b3;
+  --text-muted:     #6b6b6b;
 
   /* Borders */
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-active: rgba(0, 0, 0, 0.18);
-
-  /* Accent — stays neutral b/w */
-  --accent-main:   #0a0a0a;
-  --accent-hover:  #333333;
-
-  /* Heatmap shades (light) */
-  --heat-0: #ebedf0;
-  --heat-1: #9be9a8;
-  --heat-2: #40c463;
-  --heat-3: #30a14e;
-  --heat-4: #216e39;
-}
-
-/* ============================================================
-   DARK MODE
-   ============================================================ */
-.dark {
-  --bg-primary:   #0a0a0a;
-  --bg-secondary: #111111;
-  --bg-card:      #1a1a1a;
-  --bg-elevated:  #222222;
-
-  --text-primary:   #f5f5f5;
-  --text-secondary: #aaaaaa;
-  --text-muted:     #555555;
-
-  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.06);
   --border-active: rgba(255, 255, 255, 0.14);
 
-  --accent-main:  #f5f5f5;
-  --accent-hover: #cccccc;
+  /* Accent */
+  --accent-main:   #ffffff;
+  --accent-hover:  #d4d4d4;
 
-  /* Heatmap shades (dark) */
+  /* Heatmap shades */
   --heat-0: #161b22;
   --heat-1: #0e4429;
   --heat-2: #006d32;
   --heat-3: #26a641;
   --heat-4: #39d353;
+}
+
+/* ============================================================
+   OPTIONAL ALT DARK MODE
+   ============================================================ */
+.dark {
+  --bg-primary:   #050505;
+  --bg-secondary: #0d0d0d;
+  --bg-card:      #151515;
+  --bg-elevated:  #1f1f1f;
+
+  --text-primary:   #ffffff;
+  --text-secondary: #c0c0c0;
+  --text-muted:     #707070;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(255, 255, 255, 0.18);
+
+  --accent-main:  #ffffff;
+  --accent-hover: #e5e5e5;
 }
 
 * {
@@ -83,14 +76,22 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 /* ============================================================
    SCROLLBAR
    ============================================================ */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-active);
   border-radius: 9999px;
@@ -100,39 +101,63 @@ body {
    SELECTION
    ============================================================ */
 ::selection {
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   color: var(--text-primary);
-}
-.dark ::selection {
-  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================================
-   NOISE OVERLAY (very subtle)
+   NOISE OVERLAY
    ============================================================ */
 .noise-overlay::before {
   content: '';
   position: fixed;
   inset: 0;
+
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+
   pointer-events: none;
   z-index: 1000;
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 /* ============================================================
    TAILWIND THEME BRIDGES
-   (so existing Tailwind classes keep working via CSS vars)
    ============================================================ */
-.text-text-primary   { color: var(--text-primary); }
-.text-text-secondary { color: var(--text-secondary); }
-.text-text-muted     { color: var(--text-muted); }
-.bg-bg-primary       { background-color: var(--bg-primary); }
-.bg-bg-secondary     { background-color: var(--bg-secondary); }
-.bg-bg-card          { background-color: var(--bg-card); }
-.bg-bg-elevated      { background-color: var(--bg-elevated); }
-.border-border-subtle { border-color: var(--border-subtle); }
-.border-border-active { border-color: var(--border-active); }
+.text-text-primary {
+  color: var(--text-primary);
+}
+
+.text-text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-text-muted {
+  color: var(--text-muted);
+}
+
+.bg-bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-bg-card {
+  background-color: var(--bg-card);
+}
+
+.bg-bg-elevated {
+  background-color: var(--bg-elevated);
+}
+
+.border-border-subtle {
+  border-color: var(--border-subtle);
+}
+
+.border-border-active {
+  border-color: var(--border-active);
+}
 
 /* ============================================================
    SECTION SEPARATOR
@@ -150,11 +175,14 @@ body {
   align-items: center;
   padding: 2px 10px;
   border-radius: 9999px;
+
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 500;
+
   background: var(--bg-elevated);
   color: var(--text-secondary);
+
   border: 1px solid var(--border-subtle);
 }
 
@@ -168,31 +196,61 @@ body {
   background: var(--heat-0);
   flex-shrink: 0;
 }
-.heat-cell[data-level="1"] { background: var(--heat-1); }
-.heat-cell[data-level="2"] { background: var(--heat-2); }
-.heat-cell[data-level="3"] { background: var(--heat-3); }
-.heat-cell[data-level="4"] { background: var(--heat-4); }
+
+.heat-cell[data-level="1"] {
+  background: var(--heat-1);
+}
+
+.heat-cell[data-level="2"] {
+  background: var(--heat-2);
+}
+
+.heat-cell[data-level="3"] {
+  background: var(--heat-3);
+}
+
+.heat-cell[data-level="4"] {
+  background: var(--heat-4);
+}
 
 /* ============================================================
    BLINK CURSOR
    ============================================================ */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
-.animate-blink { animation: blink 1s step-end infinite; }
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
 
 /* ============================================================
-   FADE UP HELPER
+   FADE UP
    ============================================================ */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.animate-in { animation: fadeUp 0.55s ease-out both; }
+
+.animate-in {
+  animation: fadeUp 0.55s ease-out both;
+}
 
 /* ============================================================
-   PROFILE PICTURE RING
+   PROFILE RING
    ============================================================ */
 .avatar-ring {
   border-radius: 50%;
@@ -200,42 +258,88 @@ body {
 }
 
 /* ============================================================
-   KEEP LEGACY ACCENT CLASSES WORKING (for components not yet updated)
+   LEGACY ACCENT SUPPORT
    ============================================================ */
-.text-accent-cyan   { color: var(--accent-main); }
-.text-accent-green  { color: var(--accent-main); }
-.text-accent-purple { color: var(--text-muted); }
-.text-accent-gold   { color: var(--text-muted); }
-.bg-accent-cyan\/8  { background: var(--bg-elevated); }
-.border-accent-cyan\/30 { border-color: var(--border-active); }
+.text-accent-cyan,
+.text-accent-green {
+  color: var(--accent-main);
+}
 
-.text-gradient-cyan {
+.text-accent-purple,
+.text-accent-gold {
+  color: var(--text-muted);
+}
+
+.bg-accent-cyan\/8 {
+  background: var(--bg-elevated);
+}
+
+.border-accent-cyan\/30 {
+  border-color: var(--border-active);
+}
+
+.text-gradient-cyan,
+.text-gradient-purple {
   color: var(--text-primary);
   background: none;
   -webkit-text-fill-color: unset;
 }
-.text-gradient-purple {
-  color: var(--text-secondary);
-  background: none;
-  -webkit-text-fill-color: unset;
-}
 
-/* Glow orb — neutral in b/w mode */
+/* ============================================================
+   GLOW ORB
+   ============================================================ */
 .glow-orb {
   border-radius: 50%;
   filter: blur(80px);
   position: absolute;
   pointer-events: none;
-  background: rgba(0,0,0,0.04);
-}
-.dark .glow-orb {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* bg-grid pattern */
+/* ============================================================
+   GRID BACKGROUND
+   ============================================================ */
 .bg-grid {
   background-image:
     linear-gradient(var(--border-subtle) 1px, transparent 1px),
     linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+
   background-size: 48px 48px;
+}
+
+/* ============================================================
+   GLASS EFFECT
+   ============================================================ */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ============================================================
+   BUTTON HOVER
+   ============================================================ */
+.hover-lift {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-active);
+}
+
+/* ============================================================
+   SMOOTH LINKS
+   ============================================================ */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
 }

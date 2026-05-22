@@ -2,11 +2,9 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Experience from "@/components/sections/Experience";
-import Work from "@/components/sections/Work";
-import Blog from "@/components/sections/Blog";
-// import OpenSource from "@/components/sections/OpenSource";
-import Skills from "@/components/sections/Skills";
+import Projects from "@/components/sections/Projects";
+// import Experience from "@/components/sections/Experience";
+import Contact from "@/components/sections/Contact";
 import CustomCursor from "@/components/ui/CustomCursor";
 
 export default function Home() {
@@ -16,12 +14,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-         <Work />
         <About />
-        <Experience />
-        <Skills />
-        <Blog />
-        {/* <OpenSource /> */}
+        <Projects />
+        <Contact />
       </main>
       <Footer />
     </>
