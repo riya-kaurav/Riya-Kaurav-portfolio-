@@ -88,6 +88,11 @@ const GitHubCalendar = dynamic<{
 );
 
 export default function Hero() {
+  const roles = [
+    "currently engineering plot twists",
+  ];
+
+  const typedText = useTypewriter(roles);
 
   const scrollToProjects = () => {
     document
@@ -102,11 +107,13 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid px-4 sm:px-6">
       {/* Background Glows */}
-      <div className="glow-orb w-[500px] h-[500px] bg-accent-cyan/8 top-0 left-1/2 -translate-x-1/2 -translate-y-1/4" />
-      <div className="glow-orb w-[300px] h-[300px] bg-accent-green/5 bottom-1/4 right-1/4" />
-      <div className="glow-orb w-[200px] h-[200px] bg-accent-purple/5 top-1/2 left-1/4" />
+      <div className="glow-orb w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-accent-cyan/8 top-0 left-1/2 -translate-x-1/2 -translate-y-1/4" />
+
+      <div className="glow-orb w-[180px] sm:w-[300px] h-[180px] sm:h-[300px] bg-accent-green/5 bottom-1/4 right-1/4" />
+
+      <div className="glow-orb w-[140px] sm:w-[200px] h-[140px] sm:h-[200px] bg-accent-purple/5 top-1/2 left-1/4" />
 
       {/* Floating particles */}
       {[...Array(6)].map((_, i) => (
@@ -129,7 +136,7 @@ export default function Hero() {
         />
       ))}
 
-      <div className="max-w-6xl mx-auto px-6 pt-24 pb-16 relative z-10">
+      <div className="w-full max-w-6xl mx-auto pt-28 sm:pt-32 pb-20 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -138,12 +145,17 @@ export default function Hero() {
         >
           {/* Availability Badge */}
           {personalInfo.availableForWork && (
-            <motion.div variants={itemVariants} className="mb-8">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-xs font-mono">
+            <motion.div
+              variants={itemVariants}
+              className="mb-6 sm:mb-8 flex justify-center sm:justify-start"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-[11px] sm:text-xs font-mono text-center">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
+
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green"></span>
                 </span>
+
                 {personalInfo.availabilityText}
               </span>
             </motion.div>
@@ -152,7 +164,7 @@ export default function Hero() {
           {/* Greeting */}
           <motion.p
             variants={itemVariants}
-            className="font-mono text-accent-cyan text-sm tracking-widest mb-4"
+            className="font-mono text-accent-cyan text-xs sm:text-sm tracking-[0.25em] mb-4 text-center sm:text-left"
           >
             Hello, world! I&apos;m
           </motion.p>
@@ -160,16 +172,26 @@ export default function Hero() {
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-display font-extrabold text-5xl md:text-7xl text-text-primary leading-[1.05] tracking-tight mb-4"
+            className="font-display font-extrabold text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-text-primary leading-[1.05] tracking-tight mb-4 text-center sm:text-left break-words"
           >
             {personalInfo.name}
           </motion.h1>
 
+          {/* Animated Role */}
+          <motion.div
+            variants={itemVariants}
+            className="mb-6 text-center sm:text-left"
+          >
+            <span className="text-lg sm:text-2xl md:text-3xl font-semibold text-accent-cyan">
+              {typedText}
+              <span className="animate-pulse">|</span>
+            </span>
+          </motion.div>
 
           {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="text-text-secondary text-lg md:text-xl leading-relaxed max-w-xl mb-10 font-body"
+            className="text-text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mb-10 font-body text-center sm:text-left"
           >
             {personalInfo.tagline}
           </motion.p>
@@ -177,13 +199,14 @@ export default function Hero() {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap items-center gap-4 mb-12"
+            className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-12"
           >
             <button
               onClick={scrollToProjects}
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 bg-accent-cyan text-bg-primary font-display font-bold text-sm rounded-xl overflow-hidden transition-all duration-200 hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 bg-accent-cyan text-bg-primary font-display font-bold text-sm rounded-xl overflow-hidden transition-all duration-200 hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="relative z-10">View Projects</span>
+
               <Sparkles size={15} className="relative z-10" />
 
               <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan to-accent-green opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -191,7 +214,7 @@ export default function Hero() {
 
             <button
               onClick={scrollToContact}
-              className="inline-flex items-center gap-2 px-7 py-3.5 border border-border-active text-text-primary font-display font-bold text-sm rounded-xl hover:border-accent-cyan/50 hover:text-accent-cyan hover:bg-accent-cyan/5 transition-all duration-200"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 border border-border-active text-text-primary font-display font-bold text-sm rounded-xl hover:border-accent-cyan/50 hover:text-accent-cyan hover:bg-accent-cyan/5 transition-all duration-200"
             >
               Contact Me
             </button>
@@ -200,13 +223,13 @@ export default function Hero() {
           {/* Social Links */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4"
+            className="flex flex-col sm:flex-row items-center gap-4"
           >
             <span className="text-text-muted text-xs font-mono">
               Find me on
             </span>
 
-            <div className="w-8 h-px bg-border-active" />
+            <div className="hidden sm:block w-8 h-px bg-border-active" />
 
             <div className="flex items-center gap-3">
               {personalInfo.socials.github && (
@@ -253,20 +276,22 @@ export default function Hero() {
           variants={itemVariants}
           initial="hidden"
           animate="visible"
-          className="mt-24 flex flex-col items-center"
+          className="mt-20 sm:mt-24 flex flex-col items-center"
         >
-          <h2 className="mb-6 text-xl font-bold text-text-primary">
+          <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
             My GitHub Contributions
           </h2>
 
-          <div className="overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-6 backdrop-blur-md">
-            {/* @ts-ignore */}
-            <GitHubCalendar
-              username="riya-kaurav"
-              blockSize={12}
-              blockMargin={4}
-              fontSize={14}
-            />
+          <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-4 sm:p-6 backdrop-blur-md">
+            <div className="min-w-[700px]">
+              {/* @ts-ignore */}
+              <GitHubCalendar
+                username="riya-kaurav"
+                blockSize={12}
+                blockMargin={4}
+                fontSize={14}
+              />
+            </div>
           </div>
         </motion.div>
 
@@ -276,9 +301,9 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
           onClick={scrollToProjects}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-muted hover:text-accent-cyan transition-colors group"
+          className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-muted hover:text-accent-cyan transition-colors group"
         >
-          <span className="font-mono text-xs tracking-widest">
+          <span className="font-mono text-[10px] sm:text-xs tracking-widest">
             scroll
           </span>
 
