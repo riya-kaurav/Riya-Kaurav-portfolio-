@@ -14,9 +14,9 @@ export const personalInfo = {
   email: "kauravriya665@gmail.com",
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
-  coverQuote: "You make your own luck if you stay at it long enough.",
+  coverQuote: "The best view comes after the hardest climb",
   age: "20",
-  shortTags: ["engineer", "developer", "learner"],
+  shortTags: [ "developer", "learner"],
   githubStars: "96",
 
   
@@ -119,18 +119,19 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: "AI Job Copilot",
+    title: "SpendLens — Free AI Spend Audit for Startups",
     description:
-      "Intelligent job search assistant powered by AI that helps users optimize resumes, prepare for interviews, and discover relevant opportunities. Features real-time job matching, AI-driven resume analysis, and personalized interview preparation with actionable feedback. Built with a modern tech stack for fast performance and seamless user experience.",
+      "SpendLens helps startup founders and engineering managers find out exactly where they're overspending on AI tools. Enter your current subscriptions, get an instant audit with specific savings recommendations, and share your report with your team.",
     techStack: [
     "Next.js",
     "TypeScript",
     "Node.js",
-    "PostgreSQL",
-    "Tailwind CSS",
+    "Supabase",
+    "Vitest",
+    "GitHub Actions",
     "AI/LLM Integration"],
-    // liveUrl: "https://devcollab.demo",
-    githubUrl: "https://github.com/riya-kaurav/Ai-Job-Copilot",
+     liveUrl: "https://credex-audit-alpha.vercel.app/",
+    githubUrl: "https://github.com/riya-kaurav/credex-audit",
     featured: true,
     year: "2026",
   },
@@ -158,6 +159,24 @@ export const projects: Project[] = [
   },
 {
   id: 4,
+    title: "AI Job Copilot",
+    description:
+      "Intelligent job search assistant powered by AI that helps users optimize resumes, prepare for interviews, and discover relevant opportunities. Features real-time job matching, AI-driven resume analysis, and personalized interview preparation with actionable feedback. Built with a modern tech stack for fast performance and seamless user experience.",
+    techStack: [
+    "Next.js",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Tailwind CSS",
+    "AI/LLM Integration"],
+    // liveUrl: "https://devcollab.demo",
+    githubUrl: "https://github.com/riya-kaurav/Ai-Job-Copilot",
+    featured: true,
+    year: "2026",
+  
+ },   
+ {
+  id: 5,
     title: "Resource Sharing Platform",
     description:
       "Community-driven platform for sharing and discovering educational resources. Users can upload, search, and upvote learning materials with a tag-based organization system. Features JWT-based authentication, optimized MongoDB search with indexing, and Cloudinary integration for secure file storage. Built for fast, scalable resource discovery.",
@@ -172,7 +191,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/riya-kaurav/resource-sharing-platform",
     featured: false,
     year: "2025",
- },   
+ }
   
 ];
 
