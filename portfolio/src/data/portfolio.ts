@@ -14,23 +14,26 @@ export const personalInfo = {
   email: "kauravriya665@gmail.com",
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
+  coverQuote: "You make your own luck if you stay at it long enough.",
+  age: "20",
+  shortTags: ["engineer", "developer", "learner"],
+  githubStars: "96",
 
-  // TODO: Add your social links
+  
   socials: {
     github: "https://github.com/riya-kaurav",
     linkedin: "https://linkedin.com/in/riya-kaurav",
     twitter: "https://x.com/Riya_K11",
     // TODO: Add your Hashnode blog URL
     medium: "https://medium.com/@kauravriya665",
+    resume: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
+    
   },
 
-  // TODO: Replace with your real resume URL
-  resumeUrl: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
+
 };
 
-// ============================================================
-//  SKILLS — TODO: Update with your actual skills
-// ============================================================
+
 export const skills = {
 
   languages: [

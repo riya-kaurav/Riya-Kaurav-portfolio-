@@ -1,7 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { MapPin, Mail, Download } from "lucide-react";
+import { MapPin, Mail } from "lucide-react";
+
 import { personalInfo, skills } from "@/data/portfolio";
 import SectionWrapper, {
   SectionHeading,
@@ -14,6 +16,37 @@ const allSkills = [
   ...skills.tools,
   ...skills.others,
 ];
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+// Correct import for react-github-calendar
+const GitHubCalendar = dynamic(
+  () =>
+    import("react-github-calendar").then(
+      (mod) => mod.GitHubCalendar
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="text-sm text-text-muted">
+        Loading GitHub activity...
+      </div>
+    ),
+  }
+);
 
 export default function About() {
   return (
@@ -50,7 +83,10 @@ export default function About() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.2,
+              }}
               className="flex flex-wrap gap-2"
             >
               {allSkills.map((skill, i) => (
@@ -59,7 +95,9 @@ export default function About() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.02 }}
+                  transition={{
+                    delay: i * 0.02,
+                  }}
                   className="inline-flex items-center px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-[12px] font-semibold text-white/80 hover:bg-accent-cyan/10 hover:border-accent-cyan/20 hover:text-accent-cyan transition-all duration-200 cursor-default"
                 >
                   {skill}
@@ -70,7 +108,6 @@ export default function About() {
 
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-4">
-            {/* Location */}
             <div className="flex items-center gap-2 text-text-muted text-sm font-body">
               <MapPin
                 size={13}
@@ -81,7 +118,6 @@ export default function About() {
 
             <div className="w-px h-4 bg-border-subtle hidden sm:block" />
 
-            {/* Email */}
             <a
               href={`mailto:${personalInfo.email}`}
               className="flex items-center gap-2 text-text-muted text-sm font-body hover:text-accent-cyan transition-colors"
@@ -92,14 +128,31 @@ export default function About() {
               />
               {personalInfo.email}
             </a>
-
-            <div className="w-px h-4 bg-border-subtle hidden sm:block" />
-
-            {/* Resume */}
-           
           </div>
 
-          
+          {/* GitHub Contributions */}
+          <motion.div
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-20 sm:mt-24 flex flex-col items-center"
+          >
+            <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
+              My GitHub Contributions
+            </h2>
+
+            <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-4 sm:p-6 backdrop-blur-md">
+              <div className="min-w-[700px]">
+                <GitHubCalendar
+                  username="riya-kaurav"
+                  blockSize={12}
+                  blockMargin={4}
+                  fontSize={14}
+                />
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </SectionWrapper>

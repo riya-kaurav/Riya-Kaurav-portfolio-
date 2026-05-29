@@ -7,10 +7,11 @@ import {
   Twitter,
   ArrowDown,
   Sparkles,
+  FileText,
+  BookOpen,
 } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 
 // Typewriter hook
 function useTypewriter(words: string[], speed = 80) {
@@ -24,13 +25,11 @@ function useTypewriter(words: string[], speed = 80) {
       const timeout = setTimeout(() => setDeleting(true), 1800);
       return () => clearTimeout(timeout);
     }
-
     if (subIndex === 0 && deleting) {
       setDeleting(false);
       setIndex((prev) => (prev + 1) % words.length);
       return;
     }
-
     const timeout = setTimeout(
       () => {
         setText(words[index].substring(0, subIndex));
@@ -38,7 +37,6 @@ function useTypewriter(words: string[], speed = 80) {
       },
       deleting ? speed / 2 : speed
     );
-
     return () => clearTimeout(timeout);
   }, [subIndex, index, deleting, words, speed]);
 
@@ -47,151 +45,189 @@ function useTypewriter(words: string[], speed = 80) {
 
 const containerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-// Dynamic import to prevent hydration mismatch
-const GitHubCalendar = dynamic<{
-  username: string;
-  blockSize?: number;
-  blockMargin?: number;
-  fontSize?: number;
-}>(
-  async () => {
-    const mod = (await import("react-github-calendar")) as any;
-    return mod.default || mod.GitHubCalendar;
-  },
-  {
-    ssr: false,
-    loading: () => (
-      <div className="text-sm text-text-muted">
-        Loading GitHub activity...
-      </div>
-    ),
-  }
-);
+// ─── replace these with your real values ───────────────────────────────────
+const AVATAR_IMAGE_URL = "/image.jpeg"; // your banner/landscape photo
+const COVER_IMAGE_URL = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80"; // your profile picture
+const RESUME_URL = personalInfo.socials?.resume ?? "#";
+const MEDIUM_URL = personalInfo.socials?.medium ?? "#";
+// ───────────────────────────────────────────────────────────────────────────
 
 export default function Hero() {
-  const roles = [
-    "currently engineering plot twists",
-  ];
+ 
 
-  const typedText = useTypewriter(roles);
+  const scrollToProjects = () =>
+    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
 
-  const scrollToProjects = () => {
-    document
-      .getElementById("projects")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToContact = () => {
-    document
-      .getElementById("contact")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToContact = () =>
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-grid px-4 sm:px-6">
-      {/* Background Glows */}
-      <div className="glow-orb w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-accent-cyan/8 top-0 left-1/2 -translate-x-1/2 -translate-y-1/4" />
+    <section className="relative min-h-screen flex flex-col bg-bg-primary overflow-hidden">
+      {/* ── COVER BANNER ───────────────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full h-[220px] sm:h-[280px] md:h-[320px] overflow-hidden"
+      >
+        {/* Fallback gradient shown when no cover image is set */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f1a14] via-[#1a2820] to-[#0d151a]" />
 
-      <div className="glow-orb w-[180px] sm:w-[300px] h-[180px] sm:h-[300px] bg-accent-green/5 bottom-1/4 right-1/4" />
-
-      <div className="glow-orb w-[140px] sm:w-[200px] h-[140px] sm:h-[200px] bg-accent-purple/5 top-1/2 left-1/4" />
-
-      {/* Floating particles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-accent-cyan/30"
-          style={{
-            left: `${15 + i * 15}%`,
-            top: `${20 + (i % 3) * 25}%`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.2, 0.6, 0.2],
-          }}
-          transition={{
-            duration: 3 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.8,
+        <img
+          src={COVER_IMAGE_URL}
+          alt="Cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-70"
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = "none";
           }}
         />
-      ))}
 
-      <div className="w-full max-w-6xl mx-auto pt-28 sm:pt-32 pb-20 relative z-10">
+        {/* Subtle overlay + vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/40 via-transparent to-bg-primary/40" />
+
+        {/* Cover quote — like Image 1 */}
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.9 }}
+          className="absolute inset-0 flex items-center justify-center font-serif italic text-white/70 text-sm sm:text-base md:text-lg tracking-wide text-center px-8 select-none pointer-events-none"
+          style={{ fontStyle: "italic" }}
+        >
+          {personalInfo.coverQuote ??
+            "You make your own luck if you stay at it long enough."}
+        </motion.p>
+      </motion.div>
+
+      {/* ── PROFILE ROW ────────────────────────────────────────────────── */}
+      <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-8">
+        {/* Avatar — overlaps the cover */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.88 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.35, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute -top-14 sm:-top-16 left-4 sm:left-8"
+        >
+          <div className="relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full ring-4 ring-bg-primary overflow-hidden bg-border-subtle">
+            <img
+              src={AVATAR_IMAGE_URL}
+              alt={personalInfo.name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+            {/* Fallback initials */}
+            <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-text-muted bg-border-subtle">
+              {personalInfo.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* GitHub stars / stats badge — top right, like Image 1 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="flex justify-end pt-3 sm:pt-4"
+        >
+          <a
+            href={personalInfo.socials?.github ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-secondary/60 text-text-muted text-xs font-mono hover:text-accent-cyan hover:border-accent-cyan/30 transition-all"
+          >
+            <Github size={13} />
+            <span>{personalInfo.githubStars ?? "96"}</span>
+          </a>
+        </motion.div>
+      </div>
+
+      {/* ── MAIN INFO AREA ─────────────────────────────────────────────── */}
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-16 sm:pt-14 pb-24 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl"
         >
-          {/* Availability Badge */}
+          {/* Availability badge */}
           {personalInfo.availableForWork && (
-            <motion.div
-              variants={itemVariants}
-              className="mb-6 sm:mb-8 flex justify-center sm:justify-start"
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-[11px] sm:text-xs font-mono text-center">
+            <motion.div variants={itemVariants} className="mb-5">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-accent-green/30 bg-accent-green/5 text-accent-green text-[11px] font-mono">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
-
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-green" />
                 </span>
-
                 {personalInfo.availabilityText}
               </span>
             </motion.div>
           )}
 
-          {/* Greeting */}
-          <motion.p
-            variants={itemVariants}
-            className="font-mono text-accent-cyan text-xs sm:text-sm tracking-[0.25em] mb-4 text-center sm:text-left"
-          >
-            Hello, world! I&apos;m
-          </motion.p>
-
           {/* Name */}
           <motion.h1
             variants={itemVariants}
-            className="font-display font-extrabold text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-text-primary leading-[1.05] tracking-tight mb-4 text-center sm:text-left break-words"
+            className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-text-primary leading-tight tracking-tight mb-1"
           >
             {personalInfo.name}
           </motion.h1>
 
-          {/* Animated Role */}
+          {/* Sub-tagline row — like "22 • engineer • developer • builder" */}
           <motion.div
             variants={itemVariants}
-            className="mb-6 text-center sm:text-left"
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-4"
           >
-            <span className="text-lg sm:text-2xl md:text-3xl font-semibold text-accent-cyan">
-              {typedText}
-              <span className="animate-pulse">|</span>
-            </span>
+            {personalInfo.age && (
+              <>
+                <span className="text-text-secondary text-sm sm:text-base font-body">
+                  {personalInfo.age}
+                </span>
+                <span className="text-border-active">•</span>
+              </>
+            )}
+            {personalInfo.shortTags?.map((tag, i, arr) => (
+              <>
+                <span
+                  key={tag}
+                  className="text-text-secondary text-sm sm:text-base font-body"
+                >
+                  {tag}
+                </span>
+                {i < arr.length - 1 && (
+                  <span key={`dot-${i}`} className="text-border-active">
+                    •
+                  </span>
+                )}
+              </>
+            ))}
+            {/* Fallback if shortTags not set */}
+            {!personalInfo.shortTags && (
+              <span className="text-text-secondary text-sm sm:text-base font-body">
+                engineer • developer • builder
+              </span>
+            )}
           </motion.div>
+
+         
 
           {/* Tagline */}
           <motion.p
             variants={itemVariants}
-            className="text-text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mb-10 font-body text-center sm:text-left"
+            className="text-text-secondary text-base sm:text-lg leading-relaxed max-w-xl mb-8 font-body"
           >
             {personalInfo.tagline}
           </motion.p>
@@ -199,122 +235,136 @@ export default function Hero() {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-12"
+            className="flex flex-wrap gap-3 mb-10"
           >
             <button
               onClick={scrollToProjects}
-              className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 bg-accent-cyan text-bg-primary font-display font-bold text-sm rounded-xl overflow-hidden transition-all duration-200 hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative inline-flex items-center gap-2 px-6 py-3 bg-accent-cyan text-bg-primary font-display font-bold text-sm rounded-xl overflow-hidden transition-all duration-200 hover:shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="relative z-10">View Projects</span>
-
-              <Sparkles size={15} className="relative z-10" />
-
+              <Sparkles size={14} className="relative z-10" />
               <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan to-accent-green opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </button>
 
             <button
               onClick={scrollToContact}
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 border border-border-active text-text-primary font-display font-bold text-sm rounded-xl hover:border-accent-cyan/50 hover:text-accent-cyan hover:bg-accent-cyan/5 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-border-active text-text-primary font-display font-bold text-sm rounded-xl hover:border-accent-cyan/50 hover:text-accent-cyan hover:bg-accent-cyan/5 transition-all duration-200"
             >
               Contact Me
             </button>
           </motion.div>
 
-          {/* Social Links */}
+          {/* Social icons row — horizontal, minimal like Image 1 */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex items-center gap-2"
           >
-            <span className="text-text-muted text-xs font-mono">
-              Find me on
+            <span className="text-text-muted text-xs font-mono mr-1">
+              Find me on —
             </span>
 
-            <div className="hidden sm:block w-8 h-px bg-border-active" />
-
-            <div className="flex items-center gap-3">
-              {personalInfo.socials.github && (
-                <a
-                  href={personalInfo.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
-                  aria-label="GitHub"
-                >
-                  <Github size={17} />
-                </a>
-              )}
-
-              {personalInfo.socials.linkedin && (
-                <a
-                  href={personalInfo.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={17} />
-                </a>
-              )}
-
-              {personalInfo.socials.twitter && (
-                <a
-                  href={personalInfo.socials.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
-                  aria-label="Twitter"
-                >
-                  <Twitter size={17} />
-                </a>
-              )}
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* GitHub Calendar */}
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          className="mt-20 sm:mt-24 flex flex-col items-center"
-        >
-          <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
-            My GitHub Contributions
-          </h2>
-
-          <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-4 sm:p-6 backdrop-blur-md">
-            <div className="min-w-[700px]">
-              {/* @ts-ignore */}
-              <GitHubCalendar
-                username="riya-kaurav"
-                blockSize={12}
-                blockMargin={4}
-                fontSize={14}
+            {/* GitHub */}
+            {personalInfo.socials?.github && (
+              <SocialIcon
+                href={personalInfo.socials.github}
+                label="GitHub"
+                icon={<Github size={16} />}
               />
-            </div>
-          </div>
-        </motion.div>
+            )}
 
-        {/* Scroll Indicator */}
-        <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          onClick={scrollToProjects}
-          className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-muted hover:text-accent-cyan transition-colors group"
-        >
-          <span className="font-mono text-[10px] sm:text-xs tracking-widest">
-            scroll
-          </span>
+            {/* Twitter / X */}
+            {personalInfo.socials?.twitter && (
+              <SocialIcon
+                href={personalInfo.socials.twitter}
+                label="Twitter"
+                icon={
+                  // X logo SVG
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.264 5.636 5.9-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                }
+              />
+            )}
 
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ArrowDown size={16} />
+            {/* Medium */}
+            {MEDIUM_URL && MEDIUM_URL !== "#" && (
+              <SocialIcon
+                href={MEDIUM_URL}
+                label="Medium"
+                icon={
+                  // Medium "M" wordmark SVG
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+                  </svg>
+                }
+              />
+            )}
+
+            {/* LinkedIn */}
+            {personalInfo.socials?.linkedin && (
+              <SocialIcon
+                href={personalInfo.socials.linkedin}
+                label="LinkedIn"
+                icon={<Linkedin size={16} />}
+              />
+            )}
+
+            {/* Resume — paperclip / file icon like Image 1 */}
+            {RESUME_URL && RESUME_URL !== "#" && (
+              <SocialIcon
+                href={RESUME_URL}
+                label="Resume"
+                icon={<FileText size={16} />}
+              />
+            )}
           </motion.div>
-        </motion.button>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6 }}
+        onClick={scrollToProjects}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-text-muted hover:text-accent-cyan transition-colors"
+      >
+        <span className="font-mono text-[10px] tracking-widest">scroll</span>
+        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+          <ArrowDown size={14} />
+        </motion.div>
+      </motion.button>
     </section>
+  );
+}
+
+// ── Small reusable icon button ──────────────────────────────────────────────
+function SocialIcon({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="w-9 h-9 flex items-center justify-center rounded-xl border border-border-subtle text-text-muted hover:text-accent-cyan hover:border-accent-cyan/40 hover:bg-accent-cyan/5 transition-all duration-200"
+    >
+      {icon}
+    </a>
   );
 }
