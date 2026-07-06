@@ -26,7 +26,7 @@ export const personalInfo = {
     twitter: "https://x.com/Riya_K11",
     // TODO: Add your Hashnode blog URL
     medium: "https://medium.com/@kauravriya665",
-    resume: "https://drive.google.com/file/d/1e7pd-cwf398ZQgn8SDMVf-AHlZ-dq9pr/view?usp=drivesdk",
+    resume: "https://drive.google.com/file/d/1B-INGkw0bhRVj6M-e5QLwOkyxI4rb9PM/view?usp=drivesdk",
     
   },
 
