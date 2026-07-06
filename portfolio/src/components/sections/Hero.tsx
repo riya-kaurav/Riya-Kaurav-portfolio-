@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Github, Linkedin, ArrowDown, Sparkles, FileText } from "lucide-react";
 import { personalInfo } from "@/data/portfolio";
@@ -18,9 +19,24 @@ const itemVariants = {
   },
 };
 
+const GitHubCalendar = dynamic(
+  () =>
+    import("react-github-calendar").then(
+      (mod) => mod.GitHubCalendar
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="text-sm text-text-muted">
+        Loading GitHub activity...
+      </div>
+    ),
+  }
+);
+
 // ─── Replace these with your real values ───────────────────────────────────
 const COVER_IMAGE_URL = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400&q=80";
-const AVATAR_IMAGE_URL = "/image.jpeg";
+const AVATAR_IMAGE_URL = "/image1.jpeg";
 const RESUME_URL = personalInfo.socials?.resume ?? "#";
 const MEDIUM_URL = personalInfo.socials?.medium ?? "#";
 // ───────────────────────────────────────────────────────────────────────────
@@ -64,7 +80,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.9 }}
-            className="font-serif italic text-white/90 text-2xl sm:text-3xl md:text-4xl tracking-wide select-none pointer-events-none text-center"
+            className="font-serif italic text-white/90 text-base sm:text-xl md:text-2xl tracking-wide leading-relaxed text-center max-w-3xl"
           >
             {personalInfo.coverQuote ??
               "You make your own luck if you stay at it long enough."}
@@ -90,8 +106,6 @@ export default function Hero() {
                 (e.target as HTMLImageElement).style.display = "none";
               }}
             />
-            {/* Fallback initials */}
-            
           </div>
         </motion.div>
 
@@ -101,9 +115,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
           className="flex justify-end pt-3 sm:pt-4"
-        >
-         
-        </motion.div>
+        />
       </div>
 
       {/* ── MAIN INFO ────────────────────────────────────────────────── */}
@@ -223,6 +235,27 @@ export default function Hero() {
             {RESUME_URL && RESUME_URL !== "#" && (
               <SocialIcon href={RESUME_URL} label="Resume" icon={<FileText size={16} />} />
             )}
+          </motion.div>
+
+          {/* GitHub Contributions — now right after social icons */}
+          <motion.div
+            variants={itemVariants}
+            className="mt-16 sm:mt-20 flex flex-col items-center"
+          >
+            <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
+              My GitHub Contributions
+            </h2>
+
+            <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-bg-card p-4 sm:p-6 backdrop-blur-md">
+              <div className="min-w-[700px]">
+                <GitHubCalendar
+                  username="riya-kaurav"
+                  blockSize={12}
+                  blockMargin={4}
+                  fontSize={14}
+                />
+              </div>
+            </div>
           </motion.div>
 
         </motion.div>

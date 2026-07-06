@@ -6,6 +6,8 @@ import Projects from "@/components/sections/Projects";
 // import Experience from "@/components/sections/Experience";
 import Contact from "@/components/sections/Contact";
 import CustomCursor from "@/components/ui/CustomCursor";
+import Experience from "@/components/sections/Experience";
+import Blog from "@/components/sections/Blog";
 
 export default function Home() {
   return (
@@ -16,6 +18,8 @@ export default function Home() {
         <Hero />
          <Projects /> 
         <About />
+        <Experience />
+        <Blog/>
         <Contact />
       </main>
       <Footer />

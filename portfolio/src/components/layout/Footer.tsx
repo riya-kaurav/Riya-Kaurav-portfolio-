@@ -15,7 +15,7 @@ export default function Footer() {
          
 
         {/* Bottom bar */}
-        <div className="section-separator mt-8" />
+       
         <p className="text-center text-text-muted text-xs mt-6 flex items-center justify-center gap-1.5 font-mono">
           © {currentYear} {personalInfo.name} · Made with{" "}
           <Heart size={11} className="text-red-500 fill-red-500" /> in{" "}

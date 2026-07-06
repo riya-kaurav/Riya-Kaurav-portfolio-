@@ -32,21 +32,6 @@ const itemVariants = {
   },
 };
 
-// Correct import for react-github-calendar
-const GitHubCalendar = dynamic(
-  () =>
-    import("react-github-calendar").then(
-      (mod) => mod.GitHubCalendar
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="text-sm text-text-muted">
-        Loading GitHub activity...
-      </div>
-    ),
-  }
-);
 
 export default function About() {
   return (
@@ -130,29 +115,7 @@ export default function About() {
             </a>
           </div>
 
-          {/* GitHub Contributions */}
-          <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="mt-20 sm:mt-24 flex flex-col items-center"
-          >
-            <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
-              My GitHub Contributions
-            </h2>
-
-            <div className="w-full overflow-x-auto rounded-2xl border border-border-subtle bg-background/40 p-4 sm:p-6 backdrop-blur-md">
-              <div className="min-w-[700px]">
-                <GitHubCalendar
-                  username="riya-kaurav"
-                  blockSize={12}
-                  blockMargin={4}
-                  fontSize={14}
-                />
-              </div>
-            </div>
-          </motion.div>
+        
         </motion.div>
       </div>
     </SectionWrapper>

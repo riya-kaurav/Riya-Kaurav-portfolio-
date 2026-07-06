@@ -1,42 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   BLACK MINIMAL THEME
+   BLACK MINIMAL THEME — Vercel / Notion inspired
    ============================================================ */
 :root {
-  --font-display: 'Syne', serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Backgrounds */
-  --bg-primary:   #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-card:      #111111;
-  --bg-elevated:  #1a1a1a;
+  /* Backgrounds — subtle graduated steps instead of pure black jumps */
+  --bg-primary:   #0a0a0a;
+  --bg-secondary: #101010;
+  --bg-card:      #131313;
+  --bg-elevated:  #1c1c1c;
 
-  /* Text */
-  --text-primary:   #f5f5f5;
-  --text-secondary: #b3b3b3;
-  --text-muted:     #6b6b6b;
+  /* Text — softened off-whites, Notion-style muted hierarchy */
+  --text-primary:   #ededed;
+  --text-secondary: #a1a1a1;
+  --text-muted:     #707070;
 
-  /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-active: rgba(255, 255, 255, 0.14);
+  /* Borders — thinner, quieter, closer to Vercel's hairline style */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(255, 255, 255, 0.16);
 
-  /* Accent */
-  --accent-main:   #ffffff;
-  --accent-hover:  #d4d4d4;
+  /* Accent — a quiet indigo, used sparingly (links, focus, one glow) */
+  --accent-main:   #e2efe5;
+  --accent-hover:  #dfece4;
+  --accent-soft:   rgba(216, 218, 240, 0.1);
 
-  /* Heatmap shades */
-  --heat-0: #161b22;
-  --heat-1: #0e4429;
-  --heat-2: #006d32;
-  --heat-3: #26a641;
-  --heat-4: #39d353;
+  /* Shadows — Notion-style soft elevation instead of hard borders */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Heatmap shades — monochrome grey scale, matches the theme instead of GitHub green */
+--heat-0: #161616;
+--heat-1: #2e2e2e;
+--heat-2: #4d4d4d;
+--heat-3: #7a7a7a;
+--heat-4: #ededed;
+
+  /* Section rhythm — single source of truth for gaps between sections */
+  --section-gap: 4rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --section-gap: 6rem;
+  }
 }
 
 /* ============================================================
@@ -49,8 +69,8 @@
   --bg-elevated:  #1f1f1f;
 
   --text-primary:   #ffffff;
-  --text-secondary: #c0c0c0;
-  --text-muted:     #707070;
+  --text-secondary: #b0b0b0;
+  --text-muted:     #6a6a6a;
 
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-active: rgba(255, 255, 255, 0.18);
@@ -69,23 +89,33 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
+  letter-spacing: -0.011em;
+  line-height: 1.55;
   overflow-x: hidden;
   transition:
     background-color 0.25s ease,
     color 0.25s ease;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
 /* ============================================================
    SCROLLBAR
    ============================================================ */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,12 +127,24 @@ body {
   border-radius: 9999px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
 /* ============================================================
    SELECTION
    ============================================================ */
 ::selection {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--accent-soft);
   color: var(--text-primary);
+}
+
+/* ============================================================
+   FOCUS STATE — a touch of accent on keyboard focus
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--accent-main);
+  outline-offset: 2px;
 }
 
 /* ============================================================
@@ -117,7 +159,8 @@ body {
 
   pointer-events: none;
   z-index: 1000;
-  opacity: 0.25;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
 }
 
 /* ============================================================
@@ -164,7 +207,13 @@ body {
    ============================================================ */
 .section-separator {
   height: 1px;
-  background: var(--border-subtle);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-subtle) 20%,
+    var(--border-subtle) 80%,
+    transparent
+  );
 }
 
 /* ============================================================
@@ -173,17 +222,24 @@ body {
 .tag-pill {
   display: inline-flex;
   align-items: center;
-  padding: 2px 10px;
+  padding: 3px 11px;
   border-radius: 9999px;
 
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 500;
+  letter-spacing: 0.01em;
 
   background: var(--bg-elevated);
   color: var(--text-secondary);
 
   border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.tag-pill:hover {
+  border-color: var(--accent-main);
+  color: var(--text-primary);
 }
 
 /* ============================================================
@@ -195,6 +251,11 @@ body {
   border-radius: 2px;
   background: var(--heat-0);
   flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+
+.heat-cell:hover {
+  transform: scale(1.25);
 }
 
 .heat-cell[data-level="1"] {
@@ -246,7 +307,7 @@ body {
 }
 
 .animate-in {
-  animation: fadeUp 0.55s ease-out both;
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* ============================================================
@@ -255,6 +316,7 @@ body {
 .avatar-ring {
   border-radius: 50%;
   border: 2px solid var(--border-active);
+  box-shadow: 0 0 0 4px var(--bg-primary);
 }
 
 /* ============================================================
@@ -290,10 +352,15 @@ body {
    ============================================================ */
 .glow-orb {
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   position: absolute;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.03);
+  background: radial-gradient(
+    circle,
+    var(--accent-soft) 0%,
+    rgba(255, 255, 255, 0.02) 60%,
+    transparent 100%
+  );
 }
 
 /* ============================================================
@@ -305,15 +372,19 @@ body {
     linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
 
   background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
 }
 
 /* ============================================================
-   GLASS EFFECT
+   GLASS EFFECT — Notion-style soft elevation
    ============================================================ */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 /* ============================================================
@@ -321,14 +392,16 @@ body {
    ============================================================ */
 .hover-lift {
   transition:
-    transform 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.25s ease,
-    background 0.25s ease;
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .hover-lift:hover {
   transform: translateY(-3px);
   border-color: var(--border-active);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ============================================================
@@ -342,4 +415,25 @@ a {
 
 a:hover {
   opacity: 0.8;
+}
+
+/* ============================================================
+   SECTION RHYTHM — overrides each section's own padding/margin
+   so spacing is controlled from ONE place instead of every file.
+   Requires each section component to render <section> as a
+   direct child of <main>.
+   ============================================================ */
+main > section {
+  padding-top: var(--section-gap) !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+main > section:first-child {
+  padding-top: 0 !important;
+}
+
+main > section:last-child {
+  padding-bottom: var(--section-gap) !important;
 }

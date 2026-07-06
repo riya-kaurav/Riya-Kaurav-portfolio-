@@ -5,9 +5,9 @@ export const personalInfo = {
   // TODO: Add your title/role
   title: "Full-Stack Developer",
   // TODO: Add your tagline
-  tagline: "I build fast, scalable, and beautiful digital experiences.",
+  tagline: "Building scalable APIs, distributed systems, and AI-powered SaaS to create fast, reliable, and beautiful digital experiences.",
   // TODO: Add your short bio
-  bio: "I’m Riya Kaurav, a 2nd-year engineering student at Mits Gwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
+  bio: "I’m Riya Kaurav, a 3rd-year engineering student at Mits Gwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
   // TODO: Add your availability status
   location:"India",
   // TODO: Add your email
@@ -15,8 +15,8 @@ export const personalInfo = {
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
   coverQuote: "The best view comes after the hardest climb",
-  age: "20",
-  shortTags: [ "developer", "learner"],
+  age: "engineer",
+  shortTags: [ "shipping", "learning", "building"],
   githubStars: "96",
 
   
@@ -115,13 +115,13 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/riya-kaurav/JOB-SCHEDULER",
     featured: true,
     year: "2026",
-    // imageUrl: "/ProjectImage.png"
+    imageUrl: "/project1.jpeg",
   },
   {
     id: 2,
     title: "SpendLens — Free AI Spend Audit for Startups",
     description:
-      "SpendLens helps startup founders and engineering managers find out exactly where they're overspending on AI tools. Enter your current subscriptions, get an instant audit with specific savings recommendations, and share your report with your team.",
+      "SpendLens helps startup founders and engineering managers find out exactly where they're overspending on AI tools. It analyzes your SaaS subscriptions, usage patterns, and team needs to provide actionable insights for cost optimization.  ",
     techStack: [
     "Next.js",
     "TypeScript",
@@ -134,6 +134,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/riya-kaurav/credex-audit",
     featured: true,
     year: "2026",
+     imageUrl: "/project2.jpeg",
   },
   {
     id: 3,
@@ -141,7 +142,7 @@ export const projects: Project[] = [
     title: "SaaS Team Workspace Api",
     // TODO: Replace with your project description
     description:
-      "Enterprise-grade multi-tenant REST API with role-based access control, JWT authentication, and token refresh rotation. Built for SaaS platforms handling team collaboration at scale. Features Redis-based logout blacklisting, soft-delete audit trails, and role-scoped middleware enforcing Owner/Admin/Member permissions per organization. ",
+      "Enterprise-grade multi-tenant REST API with role-based access control, JWT authentication, and token refresh rotation. Built for SaaS platforms handling team collaboration at scale.  ",
     // TODO: Replace with your tech stack
     techStack: ["Node.js",
     "Express.js",
@@ -156,12 +157,13 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/riya-kaurav/Saas-workspace-api",
     featured: true,
     year: "2026",
+     imageUrl: "/project3.png",
   },
 {
   id: 4,
     title: "AI Job Copilot",
     description:
-      "Intelligent job search assistant powered by AI that helps users optimize resumes, prepare for interviews, and discover relevant opportunities. Features real-time job matching, AI-driven resume analysis, and personalized interview preparation with actionable feedback. Built with a modern tech stack for fast performance and seamless user experience.",
+      "Intelligent job search assistant powered by AI that helps users optimize resumes, prepare for interviews, and discover relevant opportunities. ",
     techStack: [
     "Next.js",
     "TypeScript",
@@ -173,25 +175,10 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/riya-kaurav/Ai-Job-Copilot",
     featured: true,
     year: "2026",
+     imageUrl: "/project4.png",
   
  },   
- {
-  id: 5,
-    title: "Resource Sharing Platform",
-    description:
-      "Community-driven platform for sharing and discovering educational resources. Users can upload, search, and upvote learning materials with a tag-based organization system. Features JWT-based authentication, optimized MongoDB search with indexing, and Cloudinary integration for secure file storage. Built for fast, scalable resource discovery.",
-    techStack: ["React.js",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "JWT",
-    "Cloudinary",
-    "Tailwind CSS",],
-    // liveUrl: "https://pulseanalytics.demo",
-    githubUrl: "https://github.com/riya-kaurav/resource-sharing-platform",
-    featured: false,
-    year: "2025",
- }
+ 
   
 ];
 
@@ -215,9 +202,9 @@ export const experiences: Experience[] = [
   {
     id: 1,
     // TODO: Add your role
-    role: "Frontend Developer Intern",
+    role: "Full Stack Developer Intern",
     // TODO: Add the company name
-    company: "Eena Pvt. Ltd.",
+    company: "Code With Conscience",
     // TODO: Add the company URL
     
     // TODO: Add the duration
@@ -227,11 +214,11 @@ export const experiences: Experience[] = [
     type: "Internship",
     // TODO: Write what you did
     description:
-      "Worked on the core product team building features. Shipped 4 major features.",
+      "Built production-grade AI backend systems by developing scalable APIs, integrating LLMs, and engineering reliable services using TypeScript and Next.js.",
     // TODO: Add bullet-point highlights
     highlights: [
-      "Rebuilt the dashboard UI with Nextjs and Tailwind CSS, improving load times by 30%",
-      "Collaborated with designers to implement a new design system, increasing UI consistency across the app",
+      "Collaborated with cross-functional engineers and product teams to deliver AI features in an agile startup environment.",
+      "Contributed to production-ready backend architecture, code reviews, and feature development with a focus on scalability and maintainability.",
       
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
