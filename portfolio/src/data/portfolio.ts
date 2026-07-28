@@ -98,7 +98,7 @@ export const projects: Project[] = [
     title: "Distributed Job Scheduler",
     // TODO: Replace with your project description
     description:
-      "A multi-tenant job queue and scheduling system built with Fastify, BullMQ, PostgreSQL, and Redis. It lets teams submit background jobs, schedule recurring tasks via cron, and monitor execution all behind a secure dual-auth API. Containerized the full stack using Docker and Docker Compose, configured Nginx as a reverse proxy, and built a GitHub Actions CI pipeline with automated linting, database migrations, and 10 integration tests running against live Postgres and Redis service containers.  ",
+      "A multi-tenant job queue and scheduling system built with Fastify, BullMQ, PostgreSQL, and Redis. It lets teams submit background jobs, schedule recurring tasks via cron, and monitor execution all behind a secure dual-auth API.  ",
     
     techStack: ["Node.js",
     "Fastify",
@@ -208,7 +208,7 @@ export const experiences: Experience[] = [
     // TODO: Add the company URL
     
     // TODO: Add the duration
-    duration: "Jan 2026 – Feb 2026",
+    duration: "Jun 2026 –  present",
     // TODO: Add location
     location: "Remote",
     type: "Internship",
@@ -217,8 +217,8 @@ export const experiences: Experience[] = [
       "Built production-grade AI backend systems by developing scalable APIs, integrating LLMs, and engineering reliable services using TypeScript and Next.js.",
     // TODO: Add bullet-point highlights
     highlights: [
-      "Collaborated with cross-functional engineers and product teams to deliver AI features in an agile startup environment.",
-      "Contributed to production-ready backend architecture, code reviews, and feature development with a focus on scalability and maintainability.",
+      "Developing and optimizing the backend AI pipeline for an offline-first rural healthcare IVR system using Node.js, Express, TypeScript, PostgreSQL, Drizzle ORM, Twilio, and OpenAI, integrating speech transcription, symptom analysis, severity classification, and real-time emergency alert workflows. ",
+      "Researching and implementing edge-ready AI inference by evaluating offline speech recognition and small language models (SLMs), improving backend orchestration, API reliability, and privacy-first processing to support secure, low latency healthcare assistance in low-connectivity environments. ",
       
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL"],
