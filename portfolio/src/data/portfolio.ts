@@ -5,9 +5,7 @@ export const personalInfo = {
   // TODO: Add your title/role
   title: "Full-Stack Developer",
   // TODO: Add your tagline
-  tagline: "Building scalable APIs, distributed systems, and AI-powered SaaS to create fast, reliable, and beautiful digital experiences.",
-  // TODO: Add your short bio
-  bio: "I’m Riya Kaurav, a 3rd-year engineering student at Mits Gwalior passionate about full-stack development, backend systems, and building products that solve real problems. I enjoy turning ideas into functional experiences while constantly learning through projects, hackathons, and experimentation. Outside of tech, I write poetry a different way of expressing creativity and perspective. Currently open to internships, freelance work, collaborations, hackathons, and opportunities where I can learn, contribute, and build meaningful things.",
+  tagline: "I'm Riya, a 3rd-year engineering student into backend systems, applied AI, and building products that solve real problems. I learn by shipping, through projects, hackathons, and experiments. Open to internships, freelance work, and collaborations.",
   // TODO: Add your availability status
   location:"India",
   // TODO: Add your email
@@ -15,8 +13,8 @@ export const personalInfo = {
   availableForWork: true,
   availabilityText: "Open to freelance & full-time",
   coverQuote: "The best view comes after the hardest climb",
-  age: "engineer",
-  shortTags: [ "shipping", "learning", "building"],
+  age: "21",
+  shortTags: [ "engineer", "building", "learning"],
   githubStars: "96",
 
   
