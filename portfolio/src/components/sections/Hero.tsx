@@ -49,14 +49,14 @@ export default function Hero() {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section className="relative min-h-screen flex flex-col bg-bg-primary overflow-hidden">
+    <section className="relative flex flex-col bg-bg-primary overflow-hidden">
 
       {/* ── COVER BANNER ─────────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full h-[220px] sm:h-[280px] md:h-[320px] overflow-hidden"
+        className="relative mx-3 mt-3 sm:mx-4 sm:mt-4 h-[180px] sm:h-[240px] md:h-[260px] overflow-hidden rounded-2xl border border-white/10"
       >
         {/* Fallback gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0f1a14] via-[#1a2820] to-[#0d151a]" />
@@ -119,7 +119,7 @@ export default function Hero() {
       </div>
 
       {/* ── MAIN INFO ────────────────────────────────────────────────── */}
-      <div className="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-16 sm:pt-14 pb-24 relative z-10">
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-16 sm:pt-14 pb-8 relative z-10">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
           {/* Availability badge */}
@@ -240,7 +240,7 @@ export default function Hero() {
           {/* GitHub Contributions — now right after social icons */}
           <motion.div
             variants={itemVariants}
-            className="mt-16 sm:mt-20 flex flex-col items-center"
+            className="mt-10 flex flex-col items-center"
           >
             <h2 className="mb-6 text-lg sm:text-xl font-bold text-text-primary text-center">
               My GitHub Contributions
@@ -260,20 +260,6 @@ export default function Hero() {
 
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
-        onClick={scrollToProjects}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-text-muted hover:text-accent-cyan transition-colors"
-      >
-        <span className="font-mono text-[10px] tracking-widest">scroll</span>
-        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-          <ArrowDown size={14} />
-        </motion.div>
-      </motion.button>
 
     </section>
   );
